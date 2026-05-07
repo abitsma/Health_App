@@ -1,0 +1,59 @@
+
+
+:root {
+    --bg-color: white;
+    --outline-color: gray;
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+}
+
+
+
+
+/************************ Header ************************/
+
+
+
+/************************ Main ************************/
+
+main {
+    padding: 30px;
+}
+
+/* Header */
+#heading {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+#heading p {
+    text-align: right;
+}
+
+/* Widgets */
+
+#widget {
+    
+}
+
+
+section {
+    border-style: solid;
+    border-color: var(--outline-color);
+    border-width: 1px;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+
+
+/************************ Footer ************************/
+

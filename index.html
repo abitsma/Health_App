@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+    <header>
+        <img> <!-- Small fire icon -->
+        <h1>CalorieTrack</h1>
+
+        <nav>
+            <ul>
+                <li><a href="#">Dashboard</a></li>
+                <li><a href="#">Log</a></li>
+                <li><a href="#">Add Food</a></li>
+                <li><a href="#">Profile</a></li>
+            </ul>
+        </nav>
+
+        <img> <!-- DarkMode/LightMode -->
+    </header>
+
+    <main>
+        <div id="heading">
+            <h1>Dashboard</h1>
+            <p>Day, Month #, 20XX</p>
+        </div>
+
+        <section class="widget" id="summary">
+            <h2>Today's Summary</h2>
+            <p><strong>X,XXX</strong> / X,XXX</p>
+        </section>
+
+        <section class="widget" id="dailyProgress">
+            <h2>Daily Progress</h2>
+            <p>XX% of daily goal</p>
+            <p>x,xxx / x,xxx kcal</p>
+            <progress id="#" value="75" max="100"></progress>
+            <p>0</p>
+            <p>x,xxx kcal</p>
+        </section>
+
+        <section class="widget" id="quickActions">
+            <h2>Quick Actions</h2>
+            <div>
+                <button>+ Add Food</button>
+                <button>View Log</button>
+            </div>
+        </section>
+
+        <section class="widget" id="mealsOverview">
+            <h2>Meals Overview</h2>
+
+            <section id="breakfastOverview">
+                <h3>Breakfast</h3>
+                <p>xxx kcal</p>
+                <p>Food Item</p> <p>xxx</p>
+                <p>Food Item</p> <p>xxx</p>
+                <button>+ Add</button>
+            </section>
+            <section id="lunchOverview">
+                <h3>Lunch</h3>
+                <p>xxx kcal</p>
+                <p>Food Item</p> <p>xxx</p>
+                <p>Food Item</p> <p>xxx</p>
+                <button>+ Add</button>
+            </section>
+            <section id="dinnerOverview">
+                <h3>Dinner</h3>
+                <p>0 kcal</p>
+                <p>Nothing logged</p>
+                <button>+ Add</button>
+            </section>
+            <section id="snacksOverview">
+                <h3>Snacks</h3>
+                <p>xxx kcal</p>
+                <p>Food Item</p> <p>xxx</p>
+                <p>Food Item</p> <p>xxx</p>
+                <button>+ Add</button>
+            </section>
+            
+        </section>
+
+    </main>
+</body>
+</html>
