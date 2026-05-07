@@ -2,7 +2,7 @@
 
 :root {
     --bg-color: white;
-    --outline-color: gray;
+    --accent-color: lightgray;
 }
 
 
@@ -38,21 +38,33 @@ main {
     text-align: right;
 }
 
-/* Widgets */
+/********** Widgets **********/
 
-#widget {
-    
-}
-
-
-section {
+.widget {
     border-style: solid;
-    border-color: var(--outline-color);
+    border-color: var(--accent-color);
     border-width: 1px;
     border-radius: 10px;
     padding: 20px;
+
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
+/* Today's Summary */
+
+#macros {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+}
+
+.macro {
+    background-color: var(--accent-color);
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+}
 
 
 /************************ Footer ************************/
