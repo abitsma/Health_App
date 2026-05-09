@@ -44,6 +44,23 @@ button:hover {
 
 /************************ Header ************************/
 
+header {
+    border-bottom: 1px solid var(--light-accent-color);
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+/* Navigation */
+
+nav ul {
+    margin-top: 20px;
+    list-style-type: none;
+    display: flex;
+    justify-content: end;
+    gap: 30px;
+}
 
 
 /************************ Main ************************/
