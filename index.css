@@ -79,7 +79,8 @@ main {
     margin-bottom: 10px;
 
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 20%;
+    row-gap: 10px;
 }
 
 .mealOverview button {
@@ -87,14 +88,15 @@ main {
     margin: auto;
 }
 
-
-.foodItems {
+.foodItem {
     grid-column: 1/3;
+    display: grid;
+    grid-template-columns: 1fr 20%;
 }
 
-.foodItem {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+.noFoodItem {
+    grid-column: 1/3;
+    text-align: center;
 }
 
 
