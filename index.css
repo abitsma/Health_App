@@ -1,20 +1,44 @@
 
 
 :root {
-    --bg-color: white;
-    --accent-color: lightgray;
+    --light-bg-color: white;
+    --light-accent-color: lightgray;
+    --light-text-color: black;
+
+    --dark-bg-color: black;
+    --dark-accent-color: lightgray;
+    --dark-text-color: white;
 }
 
 
 * {
     margin: 0;
     padding: 0;
+    color: black;
 }
 
 body {
-    background-color: var(--bg-color);
+    background-color: var(--light-bg-color);
 }
 
+button {
+    background-color: transparent;
+    border-style: solid;
+    border-radius: 7.5px;
+    border-color: --light-text-color;
+    padding: 5px;
+    font-size: 11pt;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: var(--light-accent-color);
+}
+
+.reverseColor {
+    background-color: var(--dark-bg-color);
+    color: var(--dark-text-color);
+}
 
 
 
@@ -42,7 +66,7 @@ main {
 
 .widget {
     border-style: solid;
-    border-color: var(--accent-color);
+    border-color: var(--light-accent-color);
     border-width: 1px;
     border-radius: 10px;
     padding: 20px;
@@ -60,17 +84,32 @@ main {
 }
 
 .macro {
-    background-color: var(--accent-color);
+    background-color: var(--light-accent-color);
     border-radius: 10px;
     padding: 10px;
     text-align: center;
 }
 
+/* Quick Actions */
+
+#quickActions {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+
+#quickActionButtons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+
 /* Meals Overview */
 
 .mealOverview {
     border-style: solid;
-    border-color: var(--accent-color);
+    border-color: var(--light-accent-color);
     border-width: 1px;
     border-radius: 10px;
     padding: 20px;
