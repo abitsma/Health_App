@@ -66,6 +66,10 @@ nav ul {
     gap: 30px;
 }
 
+nav ul li a {
+    text-decoration: none;
+}
+
 
 /************************ Main ************************/
 
@@ -98,6 +102,12 @@ main {
 
 /* Today's Summary */
 
+#summary {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+
 #macros {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -109,6 +119,25 @@ main {
     border-radius: 10px;
     padding: 10px;
     text-align: center;
+}
+
+.dot {
+    margin: auto;
+    border-radius: 100px;
+    width: 7.5px;
+    height: 7.5px;
+}
+
+#blueDot {
+    background-color: blue;
+}
+
+#yellowDot {
+    background-color: yellow;
+}
+
+#redDot {
+    background-color: red;
 }
 
 /* Quick Actions */
