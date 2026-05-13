@@ -20,11 +20,22 @@ let foodData = new Map([
         ["Mixed Nuts", 180],
         ["Banana", 105],
     ]],
-])
+]);
 
 
 
 function main() {
+    let totalCalCount = setupMealOverviews();
+    setupTodaysSummary(totalCalCount);
+}
+
+/*
+    Sets up all of the meal overviews
+
+    Return:
+        The amount of calories in the meals
+*/
+function setupMealOverviews() {
     const ELEMENT_NAME_INDEX = 0;
     const DATA_NAME_INDEX = 1;
     const mealOverviews = [
@@ -33,15 +44,31 @@ function main() {
         ["dinnerOverview", "dinner"],
         ["snacksOverview", "snacks"]
     ]
+
+    let totalCalCount = 0;
+
     for (let index = 0; index < mealOverviews.length; index++) {
         let mealOverviewData = mealOverviews[index];
-        setupMealOverview(
+        totalCalCount += setupMealOverview(
             document.getElementById(mealOverviewData[ELEMENT_NAME_INDEX]),
             foodData.get(mealOverviewData[DATA_NAME_INDEX])
         );
     }
+
+    return totalCalCount;
 }
 
+
+/*
+    Sets up the meal overview for the given meal element and data
+
+    Parameters:
+        mealElement: The meal overview element that will be updated
+        mealData: The data used to update mealElement
+    
+    Return:
+        The calories in this meal
+*/
 function setupMealOverview(mealElement, mealData) {
     // get food items element
     let foodItemsElement = mealElement.getElementsByClassName("foodItems")[0];
@@ -53,7 +80,7 @@ function setupMealOverview(mealElement, mealData) {
         noFoodItemElement.classList.add("noFoodItem");
         noFoodItemElement.textContent = "Nothing logged";
         foodItemsElement.appendChild(noFoodItemElement);
-        return
+        return 0;
     }
     
     let totalCalCount = 0;
@@ -88,12 +115,66 @@ function setupMealOverview(mealElement, mealData) {
     let totalElement = mealElement.getElementsByClassName("total")[0];
     totalElement.textContent = formatInt(totalCalCount) + " kcal";
     
+    return totalCalCount;
 }
 
+function setupTodaysSummary(totalCalCount) {
+    // get data
+    let targetCalCount = foodData.get("targetCalories");
+    let remainingCal = targetCalCount - totalCalCount;
+
+    let proteinCount = foodData.get("totalProtein");
+    let carbCount = foodData.get("totalCarbs");
+    let fatCount = foodData.get("totalFat");
+
+    // get todays summary element
+    let todaysSummaryElement = document.getElementById("summary");
+
+    // update calorie count
+    let calorieCountElement = todaysSummaryElement.getElementsByClassName("calorieCount")[0];
+    calorieCountElement.innerHTML = "<strong>" + formatInt(totalCalCount) +"</strong> / " + formatInt(targetCalCount);
+
+    // update remaining calories
+    let remainingCaloriesElement = todaysSummaryElement.getElementsByClassName("remainingCalories")[0];
+    remainingCaloriesElement.textContent = formatInt(remainingCal) + " kcal remaining";
+
+
+    // update macros
+    function updateMacroNum(macroElement, macroNum) {
+        let macroNumElement = macroElement.querySelector("p strong");
+        macroNumElement.textContent = formatInt(macroNum);
+    }
+    updateMacroNum(document.getElementById("proteinMacro"), foodData.get("totalProtein"));
+    updateMacroNum(document.getElementById("carbMacro"), foodData.get("totalCarbs"));
+    updateMacroNum(document.getElementById("fatMacro"), foodData.get("totalFat"));
+
+}
+
+
+/*
+    Adds comma to a given int
+
+    Parameter:
+        intToFormat: Is converted to a string with commas
+    
+    Return:
+        Returns the formatted int
+*/
 function formatInt(intToFormat) {
     return formatIntString(intToFormat.toString());
 }
 
+
+/*
+    Does the actual work of formatInt.
+    This takes a string as input and gives it commas.
+
+    Parameter:
+        intAsString: A string that was an int that will be formatted
+    
+    Return:
+        intAsString with commas
+*/
 function formatIntString(intAsString) {
     if (intAsString.length <= 3) {
         return intAsString;
