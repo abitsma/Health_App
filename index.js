@@ -27,6 +27,7 @@ let foodData = new Map([
 function main() {
     let totalCalCount = setupMealOverviews();
     setupTodaysSummary(totalCalCount);
+    setupDailyProgress(totalCalCount);
 }
 
 /*
@@ -118,6 +119,13 @@ function setupMealOverview(mealElement, mealData) {
     return totalCalCount;
 }
 
+
+/*
+    Sets up Today's Summary
+
+    Parameter:
+        totalCalCount: The total amount of calories already consumed
+*/
 function setupTodaysSummary(totalCalCount) {
     // get data
     let targetCalCount = foodData.get("targetCalories");
@@ -147,7 +155,42 @@ function setupTodaysSummary(totalCalCount) {
     updateMacroNum(document.getElementById("proteinMacro"), foodData.get("totalProtein"));
     updateMacroNum(document.getElementById("carbMacro"), foodData.get("totalCarbs"));
     updateMacroNum(document.getElementById("fatMacro"), foodData.get("totalFat"));
+}
 
+/*
+    Sets up Daily Progress
+
+    Parameter:
+        totalCalCount: The total amount of calories already consumed
+*/
+
+/*
+<section class="widget" id="dailyProgress">
+    <h2>Daily Progress</h2>
+    <p class="percentOfGoal">XX% of daily goal</p>
+    <p class="rightAlign">x,xxx / x,xxx kcal</p>
+    <progress id="dailyProgressBar" value="75" max="100"></progress>
+    <p>0</p>
+    <p class="rightAlign">x,xxx kcal</p>
+</section>
+*/
+function setupDailyProgress(totalCalCount) {
+    let dailyProgressElement = document.getElementById("dailyProgress");
+    let targetCalories = foodData.get("targetCalories");
+
+    // Update percentage of goal
+    let percentOfGoalElement = dailyProgressElement.getElementsByClassName("percentOfGoal")[0];
+    let percentage = totalCalCount / targetCalories * 100.0;
+    percentOfGoalElement.textContent = Math.round(percentage) + "% of daily goal";
+    
+    // Update fractional progress
+    let fractionalProgressElement = dailyProgressElement.getElementsByClassName("fractionalProgress")[0];
+    fractionalProgressElement.textContent = formatInt(totalCalCount) + "/ " + formatInt(targetCalories) +" kcal";
+
+    // <p class="rightAlign barCalCount">x,xxx kcal</p>
+    // Update progress bar calorie count
+    let barCalCountElement = dailyProgressElement.getElementsByClassName("barCalCount")[0];
+    barCalCountElement.textContent = formatInt(totalCalCount) + " kcal";
 }
 
 
