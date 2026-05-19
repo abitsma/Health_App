@@ -191,6 +191,10 @@ function setupDailyProgress(totalCalCount) {
     let percentage = totalCalCount / targetCalories * 100.0;
     percentOfGoalElement.textContent = Math.round(percentage) + "% of daily goal";
     
+    // Update progress bar
+    let dailyProgressBarElement = document.getElementById("dailyProgressBar");
+    dailyProgressBarElement.style.gridTemplateColumns = percentage + "%";
+
     // Update fractional progress
     let fractionalProgressElement = dailyProgressElement.getElementsByClassName("fractionalProgress")[0];
     fractionalProgressElement.textContent = formatInt(totalCalCount) + "/ " + formatInt(targetCalories) +" kcal";

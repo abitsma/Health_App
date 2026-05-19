@@ -46,7 +46,19 @@ button:hover {
     text-align: right;
 }
 
+/* Progress Bar */
 
+.progressBar {
+    background-color: var(--light-accent-color);
+    border-radius: 100px;
+    display: grid;
+    grid-template-columns: 50%;
+}
+
+.progressBar div {
+    border-radius: 100px;
+    background-color: var(--light-text-color);
+}
 
 /************************ Header ************************/
 
@@ -178,7 +190,7 @@ main {
 #dailyProgressBar {
     grid-column: 1/3;
     width: 100%;
-    height: 30px;
+    height: 15px;
 }
 
 
