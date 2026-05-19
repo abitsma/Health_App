@@ -28,10 +28,16 @@ let foodData = new Map([
 
 
 function main() {
+    const targetCalCount = foodData.get("targetCalories");
+    const proteinCount = foodData.get("totalProtein");
+    const carbCount = foodData.get("totalCarbs");
+    const fatCount = foodData.get("totalFat");
+    const targetCalories = foodData.get("targetCalories");
+
     setupDate();
     let totalCalCount = setupMealOverviews();
-    setupTodaysSummary(totalCalCount);
-    setupDailyProgress(totalCalCount);
+    setupTodaysSummary(totalCalCount, targetCalCount, proteinCount, carbCount, fatCount);
+    setupDailyProgress(totalCalCount, targetCalories);
 }
 
 /*
@@ -145,24 +151,17 @@ function setupMealOverview(mealElement, mealData) {
     Parameter:
         totalCalCount: The total amount of calories already consumed
 */
-function setupTodaysSummary(totalCalCount) {
-    // get data
-    let targetCalCount = foodData.get("targetCalories");
-    let remainingCal = targetCalCount - totalCalCount;
-
-    let proteinCount = foodData.get("totalProtein");
-    let carbCount = foodData.get("totalCarbs");
-    let fatCount = foodData.get("totalFat");
-
+function setupTodaysSummary(totalCalCount, targetCalCount, proteinCount, carbCount, fatCount) {
     // get todays summary element
     let todaysSummaryElement = document.getElementById("summary");
-
+    
     // update calorie count
     let calorieCountElement = todaysSummaryElement.getElementsByClassName("calorieCount")[0];
     calorieCountElement.innerHTML = "<strong>" + formatInt(totalCalCount) +"</strong> / " + formatInt(targetCalCount);
-
+    
     // update remaining calories
     let remainingCaloriesElement = todaysSummaryElement.getElementsByClassName("remainingCalories")[0];
+    let remainingCal = targetCalCount - totalCalCount;
     remainingCaloriesElement.textContent = formatInt(remainingCal) + " kcal remaining";
 
 
@@ -171,9 +170,9 @@ function setupTodaysSummary(totalCalCount) {
         let macroNumElement = macroElement.querySelector("p strong");
         macroNumElement.textContent = formatInt(macroNum);
     }
-    updateMacroNum(document.getElementById("proteinMacro"), foodData.get("totalProtein"));
-    updateMacroNum(document.getElementById("carbMacro"), foodData.get("totalCarbs"));
-    updateMacroNum(document.getElementById("fatMacro"), foodData.get("totalFat"));
+    updateMacroNum(document.getElementById("proteinMacro"), proteinCount);
+    updateMacroNum(document.getElementById("carbMacro"), carbCount);
+    updateMacroNum(document.getElementById("fatMacro"), fatCount);
 }
 
 /*
@@ -182,9 +181,8 @@ function setupTodaysSummary(totalCalCount) {
     Parameter:
         totalCalCount: The total amount of calories already consumed
 */
-function setupDailyProgress(totalCalCount) {
+function setupDailyProgress(totalCalCount, targetCalories) {
     let dailyProgressElement = document.getElementById("dailyProgress");
-    let targetCalories = foodData.get("targetCalories");
 
     // Update percentage of goal
     let percentOfGoalElement = dailyProgressElement.getElementsByClassName("percentOfGoal")[0];
