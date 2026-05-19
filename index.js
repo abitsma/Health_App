@@ -1,4 +1,7 @@
 
+const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
 const FOOD_NAME_INDEX = 0;
 const FOOD_CAL_INDEX = 1;
 
@@ -25,9 +28,25 @@ let foodData = new Map([
 
 
 function main() {
+    setupDate();
     let totalCalCount = setupMealOverviews();
     setupTodaysSummary(totalCalCount);
     setupDailyProgress(totalCalCount);
+}
+
+/*
+    Updates the date
+*/
+function setupDate() {
+    let currentDate = new Date();
+
+    let dayName = dayNames[currentDate.getDay()];
+    let monthName = monthNames[currentDate.getMonth()];
+    let dayNum = currentDate.getDate();
+    let year = currentDate.getFullYear();
+
+    let dateElement = document.getElementById("date");
+    dateElement.textContent = dayName + ", " + monthName + " " + dayNum + ", " + year;
 }
 
 /*
@@ -162,17 +181,6 @@ function setupTodaysSummary(totalCalCount) {
 
     Parameter:
         totalCalCount: The total amount of calories already consumed
-*/
-
-/*
-<section class="widget" id="dailyProgress">
-    <h2>Daily Progress</h2>
-    <p class="percentOfGoal">XX% of daily goal</p>
-    <p class="rightAlign">x,xxx / x,xxx kcal</p>
-    <progress id="dailyProgressBar" value="75" max="100"></progress>
-    <p>0</p>
-    <p class="rightAlign">x,xxx kcal</p>
-</section>
 */
 function setupDailyProgress(totalCalCount) {
     let dailyProgressElement = document.getElementById("dailyProgress");
