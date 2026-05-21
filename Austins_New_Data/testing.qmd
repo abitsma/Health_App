@@ -1,0 +1,36 @@
+---
+title: "Health App"
+format: html
+---
+
+```{python}
+import pandas
+import numpy
+
+food_base = pandas.read_csv(r'C:\Users\bitom\OneDrive\Desktop\Applied Programming\Health_App\Austins_New_Data\en.openfoodfacts.org.products.tsv', sep='\t')
+```
+
+Trying to see the data
+
+```{python}
+restricted = food_base[['product_name', 'generic_name', 'quantity', 'serving_size', 'trans-fat_100g', 'cholesterol_100g', 'carbohydrates_100g', 'sugars_100g', 'fiber_100g', 'proteins_100g', 'caffeine_100g', 'energy_100g']]
+```
+
+```{python}
+clean_1 = restricted[restricted['product_name'].notna()]
+```
+
+```{python}
+clean_2 = clean_1.drop(columns = ['generic_name', 'quantity'])
+```
+
+```{python}
+clean_3 = clean_2[clean_2['product_name'] != ""]
+clean_4 = clean_3[clean_3['product_name'] != "#Error!"]
+clean_4['calories_100g'] = clean_4['energy_100g'] / 4.184
+clean_5 = clean_4.drop(columns = ['energy_100g'])
+```
+
+```{python}
+clean_5.to_csv('clean_data.tsv', sep='\t', index=False)
+```
