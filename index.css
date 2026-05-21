@@ -1,91 +1,4 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Elms+Sans:ital,wght@0,100..900;1,100..900&display=swap');
-
-:root {
-    --light-bg-color: white;
-    --light-accent-color: lightgray;
-    --light-text-color: black;
-
-    --dark-bg-color: black;
-    --dark-accent-color: lightgray;
-    --dark-text-color: white;
-}
-
-
-* {
-    margin: 0;
-    padding: 0;
-    color: black;
-    font-family: "Elms Sans", sans-serif;
-}
-
-body {
-    background-color: var(--light-bg-color);
-}
-
-button {
-    background-color: transparent;
-    border-style: solid;
-    border-radius: 7.5px;
-    border-color: --light-text-color;
-    padding: 5px;
-    font-size: 11pt;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: var(--light-accent-color);
-}
-
-.reverseColor {
-    background-color: var(--dark-bg-color);
-    color: var(--dark-text-color);
-}
-
-.rightAlign {
-    text-align: right;
-}
-
-/* Progress Bar */
-
-.progressBar {
-    background-color: var(--light-accent-color);
-    border-radius: 100px;
-    display: grid;
-    grid-template-columns: 50%;
-}
-
-.progressBar div {
-    border-radius: 100px;
-    background-color: var(--light-text-color);
-}
-
-/************************ Header ************************/
-
-header {
-    border-bottom: 1px solid var(--light-accent-color);
-    padding: 10px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-}
-
-/* Navigation */
-
-nav ul {
-    margin-top: 20px;
-    list-style-type: none;
-    display: flex;
-    justify-content: end;
-    gap: 30px;
-}
-
-nav ul li a {
-    text-decoration: none;
-}
-
-
-/************************ Main ************************/
 
 main {
     display: grid;
@@ -244,11 +157,6 @@ main {
     grid-column: 1/-1;
     text-align: center;
 }
-
-
-/************************ Footer ************************/
-
-
 
 /************************ Media Queries ************************/
 
