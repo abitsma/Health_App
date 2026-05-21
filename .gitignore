@@ -1,0 +1,25 @@
+# Virtual environments
+venv/
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Environment variables
+.env
+
+# SQLite database
+db.sqlite3
+
+# VS Code settings
+.vscode/
+
+# Mac files
+.DS_Store
+
+# Static build files
+staticfiles/
+
+# Pipenv
+pip-wheel-metadata/
