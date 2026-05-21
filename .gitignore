@@ -23,3 +23,6 @@ staticfiles/
 
 # Pipenv
 pip-wheel-metadata/
+
+#Big data
+Austins_New_Data/en.openfoodfacts.org.products.tsv
