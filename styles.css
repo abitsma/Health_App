@@ -46,6 +46,10 @@ button:hover {
     text-align: right;
 }
 
+#currentLink {
+    text-decoration: underline;
+}
+
 /* Progress Bar */
 
 .progressBar {
