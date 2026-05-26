@@ -80,15 +80,6 @@ let foodItem = {
     fat: 8
 }
 
-/*
-return {
-        totalCalCount: totalCalCount,
-        totalProteinCount: totalProteinCount,
-        totalCarbCount: totalCarbCount,
-        totalFatCount: totalFatCount
-    };
-*/
-
 function main() {
     const targetCalories = foodData.targetCalories;
     const meals = foodData.meals;
@@ -118,8 +109,7 @@ function setupDate() {
     Sets up all of the meal overviews
 
     Return:
-        The amount of calories in the meals
-        TODO update
+        An object that contains the total macros for all food
 */
 function setupMealOverviews(meals) {
     // initialize total macros
