@@ -5,39 +5,98 @@ const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Frida
 const FOOD_NAME_INDEX = 0;
 const FOOD_CAL_INDEX = 1;
 
-let foodData = new Map([
-    ["targetCalories", 1991],
-    ["totalProtein", 81],
-    ["totalCarbs", 172],
-    ["totalFat", 43],
-    ["breakfast", [
-        ["Oatmeal with Berries", 380],
-        ["Greek Yogurt", 150],
-    ]],
-    ["lunch", [
-        ["Chicken & Rice Bowl", 520],
-        ["Side Salad", 85],
-    ]],
-    ["dinner", []],
-    ["snacks", [
-        ["Mixed Nuts", 180],
-        ["Banana", 105],
-    ]],
-]);
+let foodData = {
+    targetCalories: 1991,
+    meals: [
+        {
+            mealName: "Breakfast",
+            foodItems: [
+                {
+                    name: "Oatmeal with Berries",
+                    calories: 380,
+                    protein: 14,
+                    carbs: 65,
+                    fat: 8
+                },
+                {
+                    name: "Greek Yogurt",
+                    calories: 150,
+                    protein: 17,
+                    carbs: 8,
+                    fat: 4
+                }
+            ]
+        },
+        {
+            mealName: "Lunch",
+            foodItems: [
+                {
+                    name: "Chicken & Rice Bowl",
+                    calories: 520,
+                    protein: 42,
+                    carbs: 52,
+                    fat: 12
+                },
+                {
+                    name: "Side Salad",
+                    calories: 85,
+                    protein: 2,
+                    carbs: 12,
+                    fat: 4
+                },
+            ]
+        },
+        {
+            mealName: "Dinner",
+            foodItems: []
+        },
+        {
+            mealName: "Snacks",
+            foodItems: [
+                {
+                    name: "Mixed Nuts",
+                    calories: 180,
+                    protein: 5,
+                    carbs: 8,
+                    fat: 15
+                },
+                {
+                    name: "Banana",
+                    calories: 105,
+                    protein: 1,
+                    carbs: 27,
+                    fat: 0
+                }
+            ]
+        }
+    ]
+};
 
+let foodItem = {
+    name: "Oatmeal with Berries",
+    calories: 380,
+    protein: 14,
+    carbs: 65,
+    fat: 8
+}
 
+/*
+return {
+        totalCalCount: totalCalCount,
+        totalProteinCount: totalProteinCount,
+        totalCarbCount: totalCarbCount,
+        totalFatCount: totalFatCount
+    };
+*/
 
 function main() {
-    const targetCalCount = foodData.get("targetCalories");
-    const proteinCount = foodData.get("totalProtein");
-    const carbCount = foodData.get("totalCarbs");
-    const fatCount = foodData.get("totalFat");
-    const targetCalories = foodData.get("targetCalories");
+    const targetCalories = foodData.targetCalories;
+    const meals = foodData.meals;
 
     setupDate();
-    let totalCalCount = setupMealOverviews();
-    setupTodaysSummary(totalCalCount, targetCalCount, proteinCount, carbCount, fatCount);
-    setupDailyProgress(totalCalCount, targetCalories);
+    const totalMacros = setupMealOverviews(meals);
+    setupTodaysSummary(totalMacros.totalCalCount, targetCalories, totalMacros.totalProteinCount, totalMacros.totalCarbCount, totalMacros.totalFatCount);
+    setupDailyProgress(totalMacros.totalCalCount, targetCalories);
 }
 
 /*
@@ -60,88 +119,71 @@ function setupDate() {
 
     Return:
         The amount of calories in the meals
+        TODO update
 */
-function setupMealOverviews() {
-    const ELEMENT_NAME_INDEX = 0;
-    const DATA_NAME_INDEX = 1;
-    const mealOverviews = [
-        ["breakfastOverview", "breakfast"],
-        ["lunchOverview", "lunch"],
-        ["dinnerOverview", "dinner"],
-        ["snacksOverview", "snacks"]
-    ]
-
+function setupMealOverviews(meals) {
+    // initialize total macros
     let totalCalCount = 0;
+    let totalProteinCount = 0;
+    let totalCarbCount = 0;
+    let totalFatCount = 0;
 
-    for (let index = 0; index < mealOverviews.length; index++) {
-        let mealOverviewData = mealOverviews[index];
-        totalCalCount += setupMealOverview(
-            document.getElementById(mealOverviewData[ELEMENT_NAME_INDEX]),
-            foodData.get(mealOverviewData[DATA_NAME_INDEX])
-        );
-    }
+    // Get HTML for the meals
+    let mealsHTML = "";
+    meals.forEach((meal) => {
+        // initialize total meal calorie count
+        let totalMealCalCount = 0;
 
-    return totalCalCount;
-}
+        // Get the HTML for the food items
+        let foodItemsHTML = "";
+        meal.foodItems.forEach((foodItem) => {
+            foodItemsHTML += `
+                <div class="foodItem">
+                    <p>${foodItem.name}</p>
+                    <p class="rightAlign">${formatInt(foodItem.calories)}</p>
+                </div>
+                `
 
+            // Update total meal calorie count
+            totalMealCalCount += foodItem.calories;
 
-/*
-    Sets up the meal overview for the given meal element and data
+            // Update general total macros
+            totalCalCount += foodItem.calories;
+            totalProteinCount += foodItem.protein;
+            totalCarbCount += foodItem.carbs;
+            totalFatCount += foodItem.fat;
+        });
 
-    Parameters:
-        mealElement: The meal overview element that will be updated
-        mealData: The data used to update mealElement
+        // If there were no food items
+        if (foodItemsHTML == "") {
+            foodItemsHTML = '<p class="noFoodItem">Nothing logged</p>';
+        }
+
+        // Add to the meals HTML
+        mealsHTML += `
+            <section class="mealOverview">
+                <div class="mealOverviewHeader">
+                    <h3>${meal.mealName}</h3>
+                    <p class="rightAlign total">${formatInt(totalMealCalCount)} kcal</p>
+                </div>
+                <div class="foodItems">
+                    ${foodItemsHTML}
+                </div>
+                <button type="button" class="mealAddButton">+ Add</button>
+            </section>
+            `;
+    });
+
+    const mealOverviewsElement = document.getElementById("mealOverviews");
     
-    Return:
-        The calories in this meal
-*/
-function setupMealOverview(mealElement, mealData) {
-    // get food items element
-    let foodItemsElement = mealElement.getElementsByClassName("foodItems")[0];
-    
-    // Edge Case: There are no food items logged
-    if (mealData.length == 0) {
-        // <p class="noFoodItem">Nothing logged</p>
-        let noFoodItemElement = document.createElement("p");
-        noFoodItemElement.classList.add("noFoodItem");
-        noFoodItemElement.textContent = "Nothing logged";
-        foodItemsElement.appendChild(noFoodItemElement);
-        return 0;
-    }
-    
-    let totalCalCount = 0;
-    
-    // populate the overview for each food item in meal data
-    for (let index = 0; index < mealData.length; index++) {
-        // <div class="foodItem"><p>Food Item</p> <p class="rightAlign">xxx</p></div>
-        let foodItemData = mealData[index];
-        
-        // Make food item element
-        let foodItemElement = document.createElement("div");
-        foodItemElement.classList.add("foodItem");
-        foodItemsElement.appendChild(foodItemElement);
-        
-        // Make the food item label element
-        let foodLabelElement = document.createElement("p");
-        foodLabelElement.textContent = foodItemData[FOOD_NAME_INDEX];
-        foodItemElement.appendChild(foodLabelElement);
-        
-        // Make food calorie count element
-        let foodCalCountElement = document.createElement("p");
-        foodCalCountElement.classList.add("rightAlign");
-        let calCount = foodItemData[FOOD_CAL_INDEX]
-        foodCalCountElement.textContent = formatInt(calCount);
-        foodItemElement.appendChild(foodCalCountElement);
-        
-        // add to totalCalCount
-        totalCalCount += calCount;
-    }
-    
-    // Update total calorie element
-    let totalElement = mealElement.getElementsByClassName("total")[0];
-    totalElement.textContent = formatInt(totalCalCount) + " kcal";
-    
-    return totalCalCount;
+    mealOverviewsElement.innerHTML = mealsHTML;
+
+    return {
+        totalCalCount: totalCalCount,
+        totalProteinCount: totalProteinCount,
+        totalCarbCount: totalCarbCount,
+        totalFatCount: totalFatCount
+    };
 }
 
 
