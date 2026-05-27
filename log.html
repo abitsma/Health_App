@@ -6,6 +6,7 @@
     <title>Log</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="log.css">
+    <script src="log.js" defer></script>
 </head>
 <body>
     <header>
@@ -23,7 +24,80 @@
         <img> <!-- DarkMode/LightMode -->
     </header>
     <main>
-        <h1>Log</h1>
+        <section id="heading">
+            <h1> Daily Log</h1>
+            <section id="dateInterface">
+                <button type="button"><</button>
+                <p id="date">Day, Month x, 20XX</p>
+                <button type="button">></button>
+            </section>
+        </section>
+
+        <section id="mealLogs">
+            <section class="mealLog">
+                <div class="mealHeader">
+                    <h2>Meal Name</h2>
+                    <p class="rightAlign">xxx kcal</p>
+                    <button type="button">+ Add</button>
+                </div>
+                <table class="mealLogTable">
+                    <tr>
+                        <th>Food</th>
+                        <th>Cal</th>
+                        <th>Protein</th>
+                        <th>Carbs</th>
+                        <th>Fat</th>
+                    </tr>
+                    <tr>
+                        <td>Meal Name</td>
+                        <td>xxx</td>
+                        <td>xxg</td>
+                        <td>xxg</td>
+                        <td>xxg</td>
+                    </tr>
+                    <tr>
+                        <td>Meal Name</td>
+                        <td>xxx</td>
+                        <td>xxg</td>
+                        <td>xxg</td>
+                        <td>xxg</td>
+                    </tr>
+                </table>
+            </section>
+        </section>
+
+        <section id="totalSummary">
+            <h2>Total Summary</h2>
+            <section id="goalSummary">
+                <section id="totalCalories">
+                    <h3>Total Calories</h3>
+                    <p>x,xxx kcal</p>
+                </section>
+                <section id="goal">
+                    <h3>Goal</h3>
+                    <p>x,xxx kcal</p>
+                </section>
+                <section id="remaining">
+                    <h3>Remaining</h3>
+                    <p>x,xxx kcal</p>
+                </section>
+            </section>
+
+            <section id="macros">
+                <section id="protein">
+                    <h3>Protein</h3>
+                    <p>xxg</p>
+                </section>
+                <section id="carbs">
+                    <h3>Carbs</h3>
+                    <p>xxg</p>
+                </section>
+                <section id="fat">
+                    <h3>Fat</h3>
+                    <p>xxg</p>
+                </section>
+            </section>
+        </section>
     </main>
 </body>
 </html>

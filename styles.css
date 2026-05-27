@@ -23,6 +23,18 @@ body {
     background-color: var(--light-bg-color);
 }
 
+main {
+    display: grid;
+    grid-template-columns: 1fr;
+    padding: 30px;
+
+    grid-gap: 20px;
+    grid-column: 20px;
+
+    max-width: 1100px;
+    margin: auto;
+}
+
 button {
     background-color: transparent;
     border-style: solid;
@@ -40,6 +52,10 @@ button:hover {
 .reverseColor {
     background-color: var(--dark-bg-color);
     color: var(--dark-text-color);
+}
+
+.leftAlign {
+    text-align: left;
 }
 
 .rightAlign {
