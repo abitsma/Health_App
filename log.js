@@ -73,13 +73,13 @@ let foodData = {
 
 function main() {
     setupDate();
+    // setupMeals(foodData.meals);
 }
 
 /*
     Updates the date
 */
 function setupDate() {
-    console.log("ran");
     let currentDate = new Date();
 
     let dayName = dayNames[currentDate.getDay()];
@@ -89,6 +89,60 @@ function setupDate() {
 
     let dateElement = document.getElementById("date");
     dateElement.textContent = dayName + ", " + monthName + " " + dayNum + ", " + year;
+}
+
+function setupMeals(meals) {
+    let totalMacros = {
+        calories: 0,
+        protein: 0,
+        carbs: 0,
+        fat: 0,
+    }
+
+    let mealLogsHTML = "";
+    
+    meals.forEach((meal) => {
+        mealLogsHTML += getMealHTML(meal);
+        
+        // update total macros
+        const mealTotals = getMealTotals(meal);
+        totalMacros.calories += mealTotals.calories;
+        totalMacros.protein += mealTotals.protein;
+        totalMacros.carbs += mealTotals.carbs;
+        totalMacros.fat += mealTotals.fat;
+    });
+
+    const mealLogsElement = document.getElementById("mealLogs");
+}
+
+function getFoodItemHTML(meal) {
+    return `
+        <tr>
+            <td>${meal.mealName}</td>
+            <td>${meal.calories}</td>
+            <td>${meal.protein}</td>
+            <td>${meal.carbs}</td>
+            <td>${meal.fat}</td>
+        </tr>
+    `;
+}
+
+function getMealTotals(meal) {
+    let totalMacros = {
+        calories: 0,
+        protein: 0,
+        carbs: 0,
+        fat: 0,
+    }
+
+    meal.foodItems.forEach((foodItem) => {
+        totalMacros.calories += foodItem.calories;
+        totalMacros.protein += foodItem.protein;
+        totalMacros.carbs += foodItem.carbs;
+        totalMacros.fat += foodItem.fat;
+    });
+
+    return totalMacros;
 }
 
 main();
