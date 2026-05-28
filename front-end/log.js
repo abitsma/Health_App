@@ -73,7 +73,7 @@ const foodData = {
 
 function main() {
     setupDate();
-    setupMeals(foodData.meals);
+    const totalMacros = setupMeals(foodData.meals);
 }
 
 /*
@@ -91,6 +91,15 @@ function setupDate() {
     dateElement.textContent = dayName + ", " + monthName + " " + dayNum + ", " + year;
 }
 
+/*
+    Sets up the "mealLogs" HTML element and grabs total macros
+
+    Parameter:
+        meals: An array of meal objects that will be added to the page
+    
+    Return:
+        An object that has all of the total macros
+*/
 function setupMeals(meals) {
     let totalMacros = {
         calories: 0,
@@ -115,8 +124,21 @@ function setupMeals(meals) {
 
     const mealLogsElement = document.getElementById("mealLogs");
     mealLogsElement.innerHTML = mealLogsHTML;
+
+    return totalMacros;
 }
 
+
+/*
+    Gets the HTML for a "mealLog" given the "meal" and its total calories
+
+    Parameters:
+        meal: A "meal" object
+        mealTotalCalories: The total calories in the meal
+    
+    Return:
+        Returns the HTML for the meal as a string
+*/
 function getMealHTML(meal, mealTotalCalories) {
     return `
         <section class="mealLog">
@@ -132,7 +154,15 @@ function getMealHTML(meal, mealTotalCalories) {
     `
 }
 
+/*
+    Gets the HTML for the table in the "mealLog"
 
+    Parameters:
+        foodItems: An array of "foodItem"s that will be added to the page
+    
+    Return:
+        The HTML that will go inside the table for "mealLog" as a string
+*/
 function getFoodItemsHTML(foodItems) {
     if (foodItems.length == 0) {
         return `<p class="centerAlign">No foods logged</p>`;
@@ -155,6 +185,15 @@ function getFoodItemsHTML(foodItems) {
     return foodItemsHTML;
 }
 
+/*
+    Gets the HTML for a single "foodItem"
+
+    Parameters:
+        foodItem: The given "foodItem" object to be added to the page
+
+    Return:
+        The HTML for a single "foodItem" object as a string
+*/
 function getFoodItemHTML(foodItem) {
     return `
         <tr>
@@ -167,6 +206,15 @@ function getFoodItemHTML(foodItem) {
     `;
 }
 
+/*
+    Gets the total macros of a meal
+
+    Parameters:
+        meal: A "meal" object that will get the calories for
+    
+    Return:
+        Returns an object that has the total macros of a meal
+*/
 function getMealTotals(meal) {
     let totalMacros = {
         calories: 0,
