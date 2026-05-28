@@ -20,7 +20,7 @@ class FoodEntry(models.Model):
         return f"{self.food_name} - {self.calories} cal"
 
 class UserGoal(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    #user = models.OneToOneField(User, on_delete=models.CASCADE)
     calorie_goal = models.IntegerField(default=2000)
 
     def __str__(self):

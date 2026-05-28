@@ -4,20 +4,21 @@ from .models import FoodEntry, UserGoal
 
 # Dashboard View
 def dashboard(request):
-    today = timezone.now().date
+    today = timezone.now().date()
     
     entries = FoodEntry.objects.filter(
         #user=request.user,
         date_added=today
     )
 
-    calorie_goal_obj, created = UserGoal.objects.get_or_create(
-        #user=request.user,
-        defaults={"calorie goal": 2000}
-    )
+    # calorie_goal_obj, created = UserGoal.objects.get_or_create(
+    #     #user=request.user,
+    #     defaults={"calorie_goal": 2000}
+    # )
 
     calories_consumed = sum(entry.calories for entry in entries)
-    calorie_goal = calorie_goal_obj.calorie_goal
+    # calorie_goal = calorie_goal_obj.calorie_goal
+    calorie_goal = 2000
     calories_remaining = calorie_goal - calories_consumed
 
     meals = {
@@ -34,7 +35,7 @@ def dashboard(request):
         "meals": meals,
     }
 
-    return render(request, "tracker/dashboard.html", context)
+    return render(request, "tracker/index.html", context)
 
 def add_food(request):
     food_name = request.POST.get("food_name")
