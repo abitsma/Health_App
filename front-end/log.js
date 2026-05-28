@@ -3,7 +3,7 @@ const monthNames = ["January", "February", "March", "April", "May", "June", "Jul
 const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 
-let foodData = {
+const foodData = {
     targetCalories: 1991,
     meals: [
         {
@@ -73,7 +73,7 @@ let foodData = {
 
 function main() {
     setupDate();
-    // setupMeals(foodData.meals);
+    setupMeals(foodData.meals);
 }
 
 /*
@@ -102,27 +102,67 @@ function setupMeals(meals) {
     let mealLogsHTML = "";
     
     meals.forEach((meal) => {
-        mealLogsHTML += getMealHTML(meal);
-        
         // update total macros
         const mealTotals = getMealTotals(meal);
         totalMacros.calories += mealTotals.calories;
         totalMacros.protein += mealTotals.protein;
         totalMacros.carbs += mealTotals.carbs;
         totalMacros.fat += mealTotals.fat;
+
+        // update HTML
+        mealLogsHTML += getMealHTML(meal, mealTotals.calories);
     });
 
     const mealLogsElement = document.getElementById("mealLogs");
+    mealLogsElement.innerHTML = mealLogsHTML;
 }
 
-function getFoodItemHTML(meal) {
+function getMealHTML(meal, mealTotalCalories) {
+    return `
+        <section class="mealLog">
+            <div class="mealHeader">
+                <h2>${meal.mealName}</h2>
+                <p class="rightAlign">${formatInt(mealTotalCalories)} kcal</p>
+                <button type="button">+ Add</button>
+            </div>
+            <table class="mealLogTable">
+                ${getFoodItemsHTML(meal.foodItems)}
+            </table>
+        </section>
+    `
+}
+
+
+function getFoodItemsHTML(foodItems) {
+    if (foodItems.length == 0) {
+        return `<p class="centerAlign">No foods logged</p>`;
+    }
+
+    let foodItemsHTML = `
+        <tr>
+            <th>Food</th>
+            <th>Cal</th>
+            <th>Protein</th>
+            <th>Carbs</th>
+            <th>Fat</th>
+        </tr>
+    `;
+
+    foodItems.forEach(foodItem => {
+        foodItemsHTML += getFoodItemHTML(foodItem);
+    });
+
+    return foodItemsHTML;
+}
+
+function getFoodItemHTML(foodItem) {
     return `
         <tr>
-            <td>${meal.mealName}</td>
-            <td>${meal.calories}</td>
-            <td>${meal.protein}</td>
-            <td>${meal.carbs}</td>
-            <td>${meal.fat}</td>
+            <td>${foodItem.name}</td>
+            <td>${foodItem.calories}</td>
+            <td>${foodItem.protein}</td>
+            <td>${foodItem.carbs}</td>
+            <td>${foodItem.fat}</td>
         </tr>
     `;
 }
@@ -143,6 +183,41 @@ function getMealTotals(meal) {
     });
 
     return totalMacros;
+}
+
+/*
+    Adds comma to a given int
+
+    Parameter:
+        intToFormat: Is converted to a string with commas
+    
+    Return:
+        Returns the formatted int
+*/
+function formatInt(intToFormat) {
+    return formatIntString(intToFormat.toString());
+}
+
+
+/*
+    Does the actual work of formatInt.
+    This takes a string as input and gives it commas.
+
+    Parameter:
+        intAsString: A string that was an int that will be formatted
+    
+    Return:
+        intAsString with commas
+*/
+function formatIntString(intAsString) {
+    if (intAsString.length <= 3) {
+        return intAsString;
+    }
+
+    let commaSpliceIndex = intAsString.length - 3;
+    let beforeCommaSplice = formatIntString(intAsString.slice(0, commaSpliceIndex));
+    let afterCommaSplice = intAsString.slice(commaSpliceIndex, intAsString.length);
+    return beforeCommaSplice + "," + afterCommaSplice;
 }
 
 main();
