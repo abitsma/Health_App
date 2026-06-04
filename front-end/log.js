@@ -74,6 +74,7 @@ const foodData = {
 function main() {
     setupDate();
     const totalMacros = setupMeals(foodData.meals);
+    setupTotalSummary(totalMacros);
 }
 
 /*
@@ -89,6 +90,36 @@ function setupDate() {
 
     let dateElement = document.getElementById("date");
     dateElement.textContent = dayName + ", " + monthName + " " + dayNum + ", " + year;
+}
+
+/*
+    Sets up the total summary
+*/
+function setupTotalSummary(totalMacros) {
+    const totalCalories = totalMacros.calories;
+    const targetCalories = foodData.targetCalories;
+
+    // Set up goal summary
+    const totalCaloriesElement = document.getElementById("totalCalories").querySelector("p");
+    totalCaloriesElement.textContent = formatInt(totalCalories) + " kcal";
+
+    const goalElement = document.getElementById("goal").querySelector("p");
+    goalElement.textContent = formatInt(targetCalories) + " kcal";
+
+    const remainingElement = document.getElementById("remaining").querySelector("p");
+    remainingElement.textContent = formatInt(targetCalories - totalCalories) + " kcal";
+
+    // Set up Macros
+    const proteinElement = document.getElementById("protein").querySelector("p");
+    proteinElement.textContent = formatInt(totalMacros.protein) + "g";
+
+    const carbsElement = document.getElementById("carbs").querySelector("p");
+    carbsElement.textContent = formatInt(totalMacros.carbs) + "g";
+
+    const fatElement = document.getElementById("fat").querySelector("p");
+    fatElement.textContent = formatInt(totalMacros.fat) + "g";
+
+    
 }
 
 /*
