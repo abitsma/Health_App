@@ -7,7 +7,7 @@ format: html
 import pandas
 import numpy
 
-food_base = pandas.read_csv(r'C:\Users\bitom\OneDrive\Desktop\Applied Programming\Health_App\Austins_New_Data\en.openfoodfacts.org.products.tsv', sep='\t')
+food_base = pandas.read_csv(r'C:\Users\bitom\OneDrive\Desktop\Applied Programming\Health_appi\Health_App\Austins_New_Data\en.openfoodfacts.org.products.tsv', sep='\t')
 ```
 
 Trying to see the data
@@ -29,8 +29,27 @@ clean_3 = clean_2[clean_2['product_name'] != ""]
 clean_4 = clean_3[clean_3['product_name'] != "#Error!"]
 clean_4['calories_100g'] = clean_4['energy_100g'] / 4.184
 clean_5 = clean_4.drop(columns = ['energy_100g'])
+clean_6 = clean_5.dropna(subset=['calories_100g'])
 ```
 
 ```{python}
-clean_5.to_csv('clean_data.tsv', sep='\t', index=False)
+import re
+
+def is_latin(text):
+    if not isinstance(text, str):
+        return False
+    # Remove non-letter characters (numbers, punctuation, spaces), then check remaining chars are latin
+    letters_only = re.sub(r'[^a-zA-Z]', '', text)
+    return len(letters_only) > 0
+
+clean_7 = clean_6[clean_6['product_name'].apply(is_latin)]
+clean_8 = clean_7.drop(columns = "caffeine_100g")
+```
+
+```{python}
+clean_8.to_csv('clean_data.tsv', sep='\t', index=False)
+```
+
+```{python}
+ clean_8.to_json('cleen_data.json', orient='records', indent=4)
 ```
