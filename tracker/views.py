@@ -43,7 +43,7 @@ def add_food(request):
     meal_type = request.POST.get("meal_type")
 
     FoodEntry.objects.create(
-        #user=request.user,
+        user=request.user,
         food_name=food_name,
         calories=calories,
         meal_type=meal_type

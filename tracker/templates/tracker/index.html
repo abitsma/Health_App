@@ -35,8 +35,12 @@
 
         <section class="widget" id="summary">
             <h2>Today's Summary</h2>
-            <p class="calorieCount"><strong>X,XXX</strong> / X,XXX</p>
-            <p class="remainingCalories">xxx kcal remaining</p>
+            <p class="calorieCount">
+                <strong>{{ calories_consumed }}</strong> / {{ calorie_goal }}
+            </p>
+            <p class="remainingCalories">
+                {{ calories_remaining }} kcal remaining
+            </p>
 
             <div id="macros">
                 <section class="macro" id="proteinMacro">
@@ -75,10 +79,54 @@
             </div>
         </section>
 
-        <section class="widget" id="mealsOverview">
+        {% for meal_name, meal_entries in meals.items %}
+
+        <section class="mealOverview">
+            <div class="mealOverviewHeader">
+                <h3>{{ meal_name|title }}</h3>
+
+                <!-- <p class="rightAlign total">
+                    {% with total=0 %}
+                        {% for entry in meal_entries %}
+                            {{ entry.calories }}
+                        {% endfor %}
+                    {% endwith %}
+                </p> -->
+            </div>
+
+            <div class="foodItems">
+                {% if meal_entries %}
+                    {% for entry in meal_entries %}
+                        <div class="foodItem">
+                            <p>{{ entry.food_name }}</p>
+                            <p class="rightAlign">{{ entry.calories }}</p>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="noFoodItem">Nothing logged</p>
+                {% endif %}
+            </div>
+
+             <form method="POST" action="{% url 'add_food' %}">
+                {% csrf_token %}
+
+                <input type="hidden" name="meal_type" value="{{ meal_name  }}">
+
+                <input type="text" name="food_name" placeholder="Food Name" required>
+                <input type="number" name="calories" placeholder="Calories" required>
+
+                <button type="submit" class="mealAddButton">+ Add</button>
+            </form>
+        </section>
+
+        {% endfor %}
+
+
+
+        <!-- <section class="widget" id="mealsOverview">
             <h2>Meals Overview</h2>
 
-            <div id="mealOverviews">
+            <div id="mealOverviews"> -->
                 <!-- This is what a meal overview would look like
 
                 <section class="mealOverview">
@@ -97,9 +145,9 @@
                 </section>
 
                 -->
-            </div>
+            <!-- </div>
             
-        </section>
+        </section> -->
 
     </main>
 </body>

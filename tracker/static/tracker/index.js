@@ -271,4 +271,4 @@ function formatIntString(intAsString) {
     return beforeCommaSplice + "," + afterCommaSplice;
 }
 
-main()
+setupDate();

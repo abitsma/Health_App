@@ -10,7 +10,12 @@ class FoodEntry(models.Model):
         ("snack", "Snack"),
     ]
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )
     food_name = models.CharField(max_length=100)
     calories = models.IntegerField()
     meal_type= models.CharField(max_length=20, choices=MEAL_CHOICES)
@@ -20,8 +25,8 @@ class FoodEntry(models.Model):
         return f"{self.food_name} - {self.calories} cal"
 
 class UserGoal(models.Model):
-    #user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     calorie_goal = models.IntegerField(default=2000)
 
     def __str__(self):
-        return f"{self.user.username}'s goal: {self.calorie_goal} cal"
+        return f"{self.calorie_goal} cal"
