@@ -88,6 +88,7 @@ function main() {
     const totalMacros = setupMealOverviews(meals);
     setupTodaysSummary(totalMacros.totalCalCount, targetCalories, totalMacros.totalProteinCount, totalMacros.totalCarbCount, totalMacros.totalFatCount);
     setupDailyProgress(totalMacros.totalCalCount, targetCalories);
+    setupButtons();
 }
 
 /*
@@ -233,6 +234,14 @@ function setupDailyProgress(totalCalCount, targetCalories) {
     // Update progress bar calorie count
     let barCalCountElement = dailyProgressElement.getElementsByClassName("barCalCount")[0];
     barCalCountElement.textContent = formatInt(totalCalCount) + " kcal";
+}
+
+function setupButtons() {
+    document.getElementById("viewLogButton").addEventListener("click", onViewLogButtonClicked);
+}
+
+function onViewLogButtonClicked(event) {
+    window.location.href = "log.html";
 }
 
 
