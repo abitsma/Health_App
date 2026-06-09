@@ -11,9 +11,29 @@ const testStartingData = {
 const personalInformationForm = document.getElementById("personalInformationForm");
 
 function init() {
+    const personData = getPersonData();
+
     const startingData = testStartingData;
     updateForm(startingData);
     updateEstimatedCalories(startingData);
+}
+
+/*
+    Returns the person data recieved from the server
+    TODO Actually implement it
+
+                                                TO PEOPLE TRYING TO INTERFACE WITH FRONT END
+    
+    Either make this function get data like in testStartingData above or
+    you can maybe run init from the backend and pass the data as an argument like below.
+
+    function init(personData) {
+        ...
+    }
+
+*/
+function getPersonData() {
+    return testStartingData;
 }
 
 /*
@@ -51,6 +71,12 @@ function saveProfile(event) {
         goal: personalInformationForm.goal.value,
     };
     console.log(newData);
+
+    /*
+                                                    TO PEOPLE TRYING TO INTERFACE WITH FRONT END
+        
+        This is where you can have the javascript give the server updated profile information
+    */
 }
 
 /*

@@ -3,7 +3,7 @@ const monthNames = ["January", "February", "March", "April", "May", "June", "Jul
 const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 
-const foodData = {
+const testFoodData = {
     targetCalories: 1991,
     meals: [
         {
@@ -71,10 +71,30 @@ const foodData = {
 };
 
 
-function main() {
+function init() {
+    const foodData = getFoodData();
+
     setupDate();
     const totalMacros = setupMeals(foodData.meals);
     setupTotalSummary(totalMacros);
+}
+
+/*
+    Returns the food data recieved from the server
+    TODO Actually implement it
+
+                                                TO PEOPLE TRYING TO INTERFACE WITH FRONT END
+    
+    Either make this function get data like in example-food-data.json or
+    you can maybe run init from the backend and pass the data as an argument like below.
+
+    function init(foodData) {
+        ...
+    }
+
+*/
+function getFoodData() {
+    return testFoodData;
 }
 
 /*
@@ -299,4 +319,4 @@ function formatIntString(intAsString) {
     return beforeCommaSplice + "," + afterCommaSplice;
 }
 
-main();
+init();
