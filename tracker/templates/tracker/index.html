@@ -1,0 +1,154 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{% static 'tracker/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'tracker/index.css' %}">
+    <script src="{% static 'tracker/index.js' %}" defer></script>
+</head>
+<body>
+
+    <header>
+        <h1>🔥CalorieTrack</h1>
+
+        <nav>
+            <ul>
+                <li><a href="index.html" id="currentLink">Dashboard</a></li>
+                <li><a href="log.html">Log</a></li>
+                <li><a href="add-food.html">Add Food</a></li>
+                <li><a href="profile.html">Profile</a></li>
+            </ul>
+        </nav>
+
+        <img> <!-- DarkMode/LightMode -->
+    </header>
+
+    <main>
+        <section id="heading">
+            <h1>Dashboard</h1>
+            <p id="date">Day, Month #, 20XX</p>
+        </section>
+
+        <section class="widget" id="summary">
+            <h2>Today's Summary</h2>
+            <p class="calorieCount">
+                <strong>{{ calories_consumed }}</strong> / {{ calorie_goal }}
+            </p>
+            <p class="remainingCalories">
+                {{ calories_remaining }} kcal remaining
+            </p>
+
+            <div id="macros">
+                <section class="macro" id="proteinMacro">
+                    <div class="dot" id="blueDot"></div>
+                    <h3>Protein</h3>
+                    <p><strong>xx</strong>g</p>
+                </section>
+                <section class="macro" id="carbMacro">
+                    <div class="dot" id="yellowDot"></div>
+                    <h3>Carbs</h3>
+                    <p><strong>xx</strong>g</p>
+                </section>
+                <section class="macro" id="fatMacro">
+                    <div class="dot" id="redDot"></div>
+                    <h3>Fat</h3>
+                    <p><strong>xx</strong>g</p>
+                </section>
+            </div>
+            
+        </section>
+
+        <section class="widget" id="dailyProgress">
+            <h2>Daily Progress</h2>
+            <p class="percentOfGoal">XX% of daily goal</p>
+            <p class="rightAlign fractionalProgress">x,xxx / x,xxx kcal</p>
+            <div class="progressBar" id="dailyProgressBar"><div></div></div>
+            <p>0</p>
+            <p class="rightAlign barCalCount">x,xxx kcal</p>
+        </section>
+
+        <section class="widget" id="quickActions">
+            <h2>Quick Actions</h2>
+            <div id="quickActionButtons">
+                <button type="button" class="reverseColor">+ Add Food</button>
+                <button type="button">View Log</button>
+            </div>
+        </section>
+
+        {% for meal_name, meal_entries in meals.items %}
+
+        <section class="mealOverview">
+            <div class="mealOverviewHeader">
+                <h3>{{ meal_name|title }}</h3>
+
+                <!-- <p class="rightAlign total">
+                    {% with total=0 %}
+                        {% for entry in meal_entries %}
+                            {{ entry.calories }}
+                        {% endfor %}
+                    {% endwith %}
+                </p> -->
+            </div>
+
+            <div class="foodItems">
+                {% if meal_entries %}
+                    {% for entry in meal_entries %}
+                        <div class="foodItem">
+                            <p>{{ entry.food_name }}</p>
+                            <p class="rightAlign">{{ entry.calories }}</p>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="noFoodItem">Nothing logged</p>
+                {% endif %}
+            </div>
+
+             <form method="POST" action="{% url 'add_food' %}">
+                {% csrf_token %}
+
+                <input type="hidden" name="meal_type" value="{{ meal_name  }}">
+
+                <input type="text" name="food_name" placeholder="Food Name" required>
+                <input type="number" name="calories" placeholder="Calories" required>
+
+                <button type="submit" class="mealAddButton">+ Add</button>
+            </form>
+        </section>
+
+        {% endfor %}
+
+
+
+        <!-- <section class="widget" id="mealsOverview">
+            <h2>Meals Overview</h2>
+
+            <div id="mealOverviews"> -->
+                <!-- This is what a meal overview would look like
+
+                <section class="mealOverview">
+                    <div class="mealOverviewHeader">
+                        <h3>Breakfast</h3>
+                        <p class="rightAlign total">xxx kcal</p>
+                    </div>
+                    <div class="foodItems">
+                        <div class="foodItem">
+                            <p>Food Name</p>
+                            <p class="rightAlign">xxx</p>
+                        </div>
+                        <p class="noFoodItem">Nothing logged</p>
+                    </div>
+                    <button type="button" class="mealAddButton">+ Add</button>
+                </section>
+
+                -->
+            <!-- </div>
+            
+        </section> -->
+
+    </main>
+</body>
+</html>
