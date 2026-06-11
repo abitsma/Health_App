@@ -5,7 +5,7 @@ const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Frida
 const FOOD_NAME_INDEX = 0;
 const FOOD_CAL_INDEX = 1;
 
-let foodData = {
+let testFoodData = {
     targetCalories: 1991,
     meals: [
         {
@@ -72,15 +72,9 @@ let foodData = {
     ]
 };
 
-let foodItem = {
-    name: "Oatmeal with Berries",
-    calories: 380,
-    protein: 14,
-    carbs: 65,
-    fat: 8
-}
+function init() {
+    const foodData = getFoodData();
 
-function main() {
     const targetCalories = foodData.targetCalories;
     const meals = foodData.meals;
 
@@ -88,7 +82,27 @@ function main() {
     const totalMacros = setupMealOverviews(meals);
     setupTodaysSummary(totalMacros.totalCalCount, targetCalories, totalMacros.totalProteinCount, totalMacros.totalCarbCount, totalMacros.totalFatCount);
     setupDailyProgress(totalMacros.totalCalCount, targetCalories);
+    setupButtons();
 }
+
+/*
+    Returns the food data recieved from the server
+    TODO Actually implement it
+
+                                                TO PEOPLE TRYING TO INTERFACE WITH FRONT END
+    
+    Either make this function get data like in example-food-data.json or
+    you can maybe run init from the backend and pass the data as an argument like below.
+
+    function init(foodData) {
+        ...
+    }
+
+*/
+function getFoodData() {
+    return testFoodData;
+}
+
 
 /*
     Updates the date
@@ -235,6 +249,19 @@ function setupDailyProgress(totalCalCount, targetCalories) {
     barCalCountElement.textContent = formatInt(totalCalCount) + " kcal";
 }
 
+function setupButtons() {
+    document.getElementById("viewLogButton").addEventListener("click", onViewLogButtonClicked);
+    document.getElementById("addFoodButton").addEventListener("click", onAddFoodButtonClicked);
+}
+
+function onAddFoodButtonClicked(event) {
+    window.location.href = "add-food.html";
+}
+
+function onViewLogButtonClicked(event) {
+    window.location.href = "log.html";
+}
+
 
 /*
     Adds comma to a given int
@@ -271,4 +298,4 @@ function formatIntString(intAsString) {
     return beforeCommaSplice + "," + afterCommaSplice;
 }
 
-setupDate();
+init()
