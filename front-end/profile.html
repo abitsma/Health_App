@@ -6,6 +6,7 @@
     <title>Profile</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="profile.css">
+    <script src="profile.js" defer></script>
 </head>
 <body>
     <header>
@@ -23,7 +24,54 @@
         <img> <!-- DarkMode/LightMode -->
     </header>
     <main>
-        <h1>Profile</h1>
+        <h1>Profile & Goals</h1>
+        <form id="personalInformationForm">
+            <section>
+                <label for="weight">Weight (kg)</label><br>
+                <input type="number" id="weight" name="weight" required>
+            </section>
+            <section>
+                <label for="height">Height (cm)</label><br>
+                <input type="number" id="height" name="height" required>
+            </section>
+            <section>
+                <label for="age">Age</label><br>
+                <input type="number" id="age" name="age" required>
+            </section>
+            <section>
+                <label for="gender">Gender</label><br>
+                <select name="gender" id="gender" required>
+                    <option value="">Choose one</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+            </section>
+            <section>
+                <label for="activityLevel">Activity Level</label>
+                <select name="activityLevel" id="activityLevel" required>
+                    <option value="">Choose one</option>
+                    <option value="sedentary">Sedentary</option>
+                    <option value="light">Lightly Active</option>
+                    <option value="moderate">Moderately Active</option>
+                    <option value="heavy">Very Active</option>
+                </select>
+            </section>
+            <section>
+                <label for="goal">Goal</label>
+                <select name="goal" required>
+                    <option value="">Choose one</option>
+                    <option value="loss">Lose Weight</option>
+                    <option value="maintain">Maintain</option>
+                    <option value="gain">Gain Weight</option>
+                </select>
+            </section>
+            <section id="finalEstimation">
+                <h2>Estimated Daily Calories</h2>
+                <p>x,xxx calories / day</p>
+                <p>Estimated TDEE based on your profile and goal. This will update your daily calorie target.</p>
+                <button type="submit" id="save">Save Profile</button>
+            </section>
+        </form>
     </main>
 </body>
 </html>

@@ -6,6 +6,7 @@
     <title>Add Food</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="add-food.css">
+    <script src="add-food.js" defer></script>
 </head>
 <body>
     <header>
@@ -24,6 +25,48 @@
     </header>
     <main>
         <h1>Add Food</h1>
+
+        <section id="searchSection">
+            <h2>Search Food</h2>
+            <form id="searchForm">
+                <input type="text" name="searchBar" placeholder="Search food...">
+                <button class="reverseColor">Search</button>
+            </form>
+        </section>
+
+        <section id="manualEntrySection">
+            <h2>Manual Entry</h2>
+            <form id="manualEntryForm">
+                <div>
+                    <label for="name">Food Name</label>
+                    <input type="text" name="name" placeholder="e.g. Grilled Chicken">
+                </div>
+                <div>
+                    <label for="name">Calories (kcal)</label>
+                    <input type="number" name="name" placeholder="0">
+                </div>
+                <div>
+                    <label for="name">Protein (g)</label>
+                    <input type="number" name="name" placeholder="0">
+                </div>
+                <div>
+                    <label for="name">Carbs (g)</label>
+                    <input type="number" name="name" placeholder="0">
+                </div>
+                <div>
+                    <label for="name">Fat (g)</label>
+                    <input type="number" name="name" placeholder="0">
+                </div>
+                <select name="mealType">
+                    <option value="">Choose one</option>
+                    <option value="breakfast">Breakfast</option>
+                    <option value="lunch">Lunch</option>
+                    <option value="dinner">Dinner</option>
+                    <option value="snack">Snack</option>
+                </select>
+                <button type="submit" id="addFoodButton" class="reverseColor">Save Profile</button>
+            </form>
+        </section>
     </main>
 </body>
 </html>

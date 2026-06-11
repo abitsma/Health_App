@@ -3,7 +3,7 @@ const monthNames = ["January", "February", "March", "April", "May", "June", "Jul
 const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 
-const foodData = {
+const testFoodData = {
     targetCalories: 1991,
     meals: [
         {
@@ -71,9 +71,30 @@ const foodData = {
 };
 
 
-function main() {
+function init() {
+    const foodData = getFoodData();
+
     setupDate();
     const totalMacros = setupMeals(foodData.meals);
+    setupTotalSummary(totalMacros);
+}
+
+/*
+    Returns the food data recieved from the server
+    TODO Actually implement it
+
+                                                TO PEOPLE TRYING TO INTERFACE WITH FRONT END
+    
+    Either make this function get data like in example-food-data.json or
+    you can maybe run init from the backend and pass the data as an argument like below.
+
+    function init(foodData) {
+        ...
+    }
+
+*/
+function getFoodData() {
+    return testFoodData;
 }
 
 /*
@@ -89,6 +110,36 @@ function setupDate() {
 
     let dateElement = document.getElementById("date");
     dateElement.textContent = dayName + ", " + monthName + " " + dayNum + ", " + year;
+}
+
+/*
+    Sets up the total summary
+*/
+function setupTotalSummary(totalMacros) {
+    const totalCalories = totalMacros.calories;
+    const targetCalories = foodData.targetCalories;
+
+    // Set up goal summary
+    const totalCaloriesElement = document.getElementById("totalCalories").querySelector("p");
+    totalCaloriesElement.textContent = formatInt(totalCalories) + " kcal";
+
+    const goalElement = document.getElementById("goal").querySelector("p");
+    goalElement.textContent = formatInt(targetCalories) + " kcal";
+
+    const remainingElement = document.getElementById("remaining").querySelector("p");
+    remainingElement.textContent = formatInt(targetCalories - totalCalories) + " kcal";
+
+    // Set up Macros
+    const proteinElement = document.getElementById("protein").querySelector("p");
+    proteinElement.textContent = formatInt(totalMacros.protein) + "g";
+
+    const carbsElement = document.getElementById("carbs").querySelector("p");
+    carbsElement.textContent = formatInt(totalMacros.carbs) + "g";
+
+    const fatElement = document.getElementById("fat").querySelector("p");
+    fatElement.textContent = formatInt(totalMacros.fat) + "g";
+
+    
 }
 
 /*
@@ -268,4 +319,4 @@ function formatIntString(intAsString) {
     return beforeCommaSplice + "," + afterCommaSplice;
 }
 
-main();
+init();
