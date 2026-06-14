@@ -26,7 +26,7 @@
     <main>
         <h1>Add Food</h1>
 
-        <section id="searchSection">
+        <section id="searchSection" class="outline">
             <h2>Search Food</h2>
             <form id="searchForm">
                 <input type="text" name="searchBar" placeholder="Search food...">
@@ -34,37 +34,45 @@
             </form>
         </section>
 
-        <section id="manualEntrySection">
+        <section id="manualEntrySection" class="outline">
             <h2>Manual Entry</h2>
             <form id="manualEntryForm">
-                <div>
-                    <label for="name">Food Name</label>
+                <div class="full">
+                    <label for="name">Food Name</label><br>
                     <input type="text" name="name" placeholder="e.g. Grilled Chicken">
                 </div>
                 <div>
-                    <label for="name">Calories (kcal)</label>
+                    <label for="name">Calories (kcal)</label><br>
                     <input type="number" name="name" placeholder="0">
                 </div>
                 <div>
-                    <label for="name">Protein (g)</label>
+                    <label for="name">Protein (g)</label><br>
                     <input type="number" name="name" placeholder="0">
                 </div>
                 <div>
-                    <label for="name">Carbs (g)</label>
+                    <label for="name">Carbs (g)</label><br>
                     <input type="number" name="name" placeholder="0">
                 </div>
                 <div>
-                    <label for="name">Fat (g)</label>
+                    <label for="name">Fat (g)</label><br>
                     <input type="number" name="name" placeholder="0">
                 </div>
-                <select name="mealType">
-                    <option value="">Choose one</option>
-                    <option value="breakfast">Breakfast</option>
-                    <option value="lunch">Lunch</option>
-                    <option value="dinner">Dinner</option>
-                    <option value="snack">Snack</option>
-                </select>
-                <button type="submit" id="addFoodButton" class="reverseColor">Save Profile</button>
+                <div class="full">
+                    <label for="mealType">Meal Type</label><br>
+
+                    <input type="radio" name="mealType" value="breakfast" id="breakfast">
+                    <label for="breakfast">Breakfast</label>
+
+                    <input type="radio" name="mealType" value="lunch" id="lunch">
+                    <label for="lunch">Lunch</label>
+
+                    <input type="radio" name="mealType" value="dinner" id="dinner">
+                    <label for="dinner">Dinner</label>
+
+                    <input type="radio" name="mealType" value="snack" id="snack">
+                    <label for="snack">Snack</label>
+                </div>
+                <button type="submit" id="addFoodButton" class="reverseColor full">+ Add Food</button>
             </form>
         </section>
     </main>

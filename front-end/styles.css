@@ -49,6 +49,18 @@ button:hover {
     background-color: var(--light-accent-color);
 }
 
+label {
+    font-weight: bold;
+}
+
+input[type="text"], input[type="number"] {
+    width: 100%;
+    padding: 5px;
+    border-radius: 10px;
+    background-color: var(--light-accent-color);
+    border: none;
+}
+
 .reverseColor {
     background-color: var(--dark-bg-color);
     color: var(--dark-text-color);
@@ -68,6 +80,12 @@ button:hover {
 
 #currentLink {
     text-decoration: underline;
+}
+
+.outline {
+    border: solid 2px var(--light-accent-color);
+    border-radius: 10px;
+    padding: 20px;
 }
 
 /* Progress Bar */
