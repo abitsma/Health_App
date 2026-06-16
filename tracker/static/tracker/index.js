@@ -100,7 +100,14 @@ function init() {
 
 */
 function getFoodData() {
-    return testFoodData;
+    const foodDataElement = document.getElementById("food-data");
+
+    if (!foodDataElement) {
+        console.log("Could not find food data JSON form Django.");
+        return testFoodData;
+    }
+
+    return JSON.parse(foodDataElement.textContent);
 }
 
 
