@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.utils import timezone
-from .models import FoodEntry
+from .models import FoodEntry, UserGoal
 
 # Dashboard View
 def dashboard(request):
@@ -48,24 +48,43 @@ def dashboard(request):
         "food_data": food_data
     })
 
+
+# Log Page View
+def log(request):
+    today = timezone.now().date()
+
+    entries = FoodEntry.objects.filter(
+        date_added=today
+    )
+
+    meals = {
+        "breakfast": entries.filter(meal_type="breakfast"),
+        "lunch": entries.filter(meal_type="lunch"),
+        "dinner": entries.filter(meal_type="dinner"),
+        "snack": entries.filter(meal_type="snack"),
+    }
+
+    total_calories = sum(entry.calories for entry in entries)
+
+    context = {
+        "meals": meals,
+        "total_calories": total_calories,
+        "calorie_goal": 2000,
+        "remaining": 2000 - total_calories,
+    }
+
+    return render(request, "tracker/log.html", context)
+
+
 def add_food(request):
+    food_name = request.POST.get("food_name")
+    calories = request.POST.get("calories")
+    meal_type = request.POST.get("meal_type")
 
-    if request.method == "POST":
-
-        food_name = request.POST.get("food_name")
-        calories = request.POST.get("calories")
-        protein = request.POST.get("protein") or 0
-        carbs = request.POSST.get("carbs") or 0
-        fat = request.POST.get("fat") or 0
-        meal_type = request.POST.get("meal_type")
-
-        FoodEntry.objects.create(
-            food_name=food_name,
-            calories=calories,
-            protein=protein,
-            carbs=carbs,
-            fat=fat,
-            meal_type=meal_type
-        )
+    FoodEntry.objects.create(
+        food_name=food_name,
+        calories=calories,
+        meal_type=meal_type
+    )
 
     return redirect("dashboard")

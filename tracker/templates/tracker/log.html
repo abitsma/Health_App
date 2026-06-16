@@ -1,0 +1,126 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log</title>
+
+    <link rel="stylesheet" href="{% static 'tracker/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'tracker/log.css' %}">
+
+    <script src="{% static 'tracker/log.js' %}" defer></script>
+</head>
+<body>
+    <header>
+        <h1>🔥CalorieTrack</h1>
+
+        <nav>
+            <ul>
+                <li><a href="/">Dashboard</a></li>
+                <li><a href="/log/" id="currentLink">Log</a></li>
+                <li><a href="/add-food/">Add Food</a></li>
+                <li><a href="#">Profile</a></li>
+            </ul>
+        </nav>
+
+        <img>
+    </header>
+
+    <main>
+
+        <section id="heading">
+            <h1>Daily Log</h1>
+        </section>
+
+        <section id="mealLogs">
+
+            {% for meal_name, meal_entries in meals.items %}
+
+            <section class="mealLog">
+                <div class="mealHeader">
+                    <h2>{{ meal_name|title }}</h2>
+
+                    <p class="rightAlign">
+                        {% for entry in meal_entries %}
+                            {{ entry.calories }}
+                        {% endfor %}
+                    </p>
+
+                    <form method="POST" action="{% url 'add_food' %}">
+                        {% csrf_token %}
+
+                        <input type="hidden" name="meal_type" value="{{ meal_name }}">
+
+                        <input type="text"
+                               name="food_name"
+                               placeholder="Food Name"
+                               required>
+
+                        <input type="number"
+                               name="calories"
+                               placeholder="Calories"
+                               required>
+
+                        <button type="submit">+ Add</button>
+                    </form>
+                </div>
+
+                <table class="mealLogTable">
+
+                    <tr>
+                        <th>Food</th>
+                        <th>Calories</th>
+                    </tr>
+
+                    {% if meal_entries %}
+
+                        {% for entry in meal_entries %}
+                        <tr>
+                            <td>{{ entry.food_name }}</td>
+                            <td>{{ entry.calories }}</td>
+                        </tr>
+                        {% endfor %}
+
+                    {% else %}
+
+                        <tr>
+                            <td colspan="2">No foods logged</td>
+                        </tr>
+
+                    {% endif %}
+
+                </table>
+            </section>
+
+            {% endfor %}
+
+        </section>
+
+        <section id="totalSummary">
+            <h2>Total Summary</h2>
+
+            <section id="goalSummary">
+
+                <section id="totalCalories">
+                    <h3>Total Calories</h3>
+                    <p>{{ total_calories }} kcal</p>
+                </section>
+
+                <section id="goal">
+                    <h3>Goal</h3>
+                    <p>{{ calorie_goal }} kcal</p>
+                </section>
+
+                <section id="remaining">
+                    <h3>Remaining</h3>
+                    <p>{{ remaining }} kcal</p>
+                </section>
+
+            </section>
+        </section>
+
+    </main>
+</body>
+</html>
