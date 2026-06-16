@@ -2,6 +2,14 @@
 
 const manualEntryFormElement = document.getElementById("manualEntryForm");
 
+function init() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.size == 0) return;
+
+    const mealType = params.get('mealType').toLowerCase();
+    manualEntryFormElement.mealType.value = mealType;
+}
+
 /*
     Saves the food to the back end
 */
@@ -29,3 +37,4 @@ function submitFood(event) {
 }
 
 manualEntryFormElement.addEventListener("submit", submitFood);
+init()
