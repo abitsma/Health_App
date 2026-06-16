@@ -26,7 +26,7 @@
     <main>
         <h1>Add Food</h1>
 
-        <section id="searchSection">
+        <section id="searchSection" class="outline">
             <h2>Search Food</h2>
             <form id="searchForm">
                 <input type="text" name="searchBar" placeholder="Search food...">
@@ -34,37 +34,45 @@
             </form>
         </section>
 
-        <section id="manualEntrySection">
+        <section id="manualEntrySection" class="outline">
             <h2>Manual Entry</h2>
             <form id="manualEntryForm">
-                <div>
-                    <label for="name">Food Name</label>
-                    <input type="text" name="name" placeholder="e.g. Grilled Chicken">
+                <div class="full">
+                    <label for="name">Food Name</label><br>
+                    <input type="text" name="name" id="name" placeholder="e.g. Grilled Chicken" required>
                 </div>
                 <div>
-                    <label for="name">Calories (kcal)</label>
-                    <input type="number" name="name" placeholder="0">
+                    <label for="calories">Calories (kcal)</label><br>
+                    <input type="number" name="calories" id="calories" placeholder="0" required>
                 </div>
                 <div>
-                    <label for="name">Protein (g)</label>
-                    <input type="number" name="name" placeholder="0">
+                    <label for="protein">Protein (g)</label><br>
+                    <input type="number" name="protein" id="protein" placeholder="0" required>
                 </div>
                 <div>
-                    <label for="name">Carbs (g)</label>
-                    <input type="number" name="name" placeholder="0">
+                    <label for="carbs">Carbs (g)</label><br>
+                    <input type="number" name="carbs" id="carbs" placeholder="0" required>
                 </div>
                 <div>
-                    <label for="name">Fat (g)</label>
-                    <input type="number" name="name" placeholder="0">
+                    <label for="fat">Fat (g)</label><br>
+                    <input type="number" name="fat" id="fat" placeholder="0" required>
                 </div>
-                <select name="mealType">
-                    <option value="">Choose one</option>
-                    <option value="breakfast">Breakfast</option>
-                    <option value="lunch">Lunch</option>
-                    <option value="dinner">Dinner</option>
-                    <option value="snack">Snack</option>
-                </select>
-                <button type="submit" id="addFoodButton" class="reverseColor">Save Profile</button>
+                <fieldset class="full">
+                    <legend>Meal Type</legend><br>
+
+                    <input type="radio" name="mealType" value="breakfast" id="breakfast" checked>
+                    <label for="breakfast">Breakfast</label>
+
+                    <input type="radio" name="mealType" value="lunch" id="lunch">
+                    <label for="lunch">Lunch</label>
+
+                    <input type="radio" name="mealType" value="dinner" id="dinner">
+                    <label for="dinner">Dinner</label>
+
+                    <input type="radio" name="mealType" value="snacks" id="snacks">
+                    <label for="snacks">Snack</label>
+                </fieldset>
+                <button type="submit" id="addFoodButton" class="reverseColor full">+ Add Food</button>
             </form>
         </section>
     </main>
