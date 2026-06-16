@@ -195,7 +195,7 @@ function getMealHTML(meal, mealTotalCalories) {
             <div class="mealHeader">
                 <h2>${meal.mealName}</h2>
                 <p class="rightAlign">${formatInt(mealTotalCalories)} kcal</p>
-                <button type="button">+ Add</button>
+                <button type="button" onclick="location.href='add-food.html?mealType=${meal.mealName}'">+ Add</button>
             </div>
             <table class="mealLogTable">
                 ${getFoodItemsHTML(meal.foodItems)}
