@@ -12,6 +12,7 @@ const personalInformationForm = document.getElementById("personalInformationForm
 
 function init() {
     const personData = getPersonData();
+    if (personData == null) return;
 
     const startingData = testStartingData;
     updateForm(startingData);

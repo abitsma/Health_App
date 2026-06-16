@@ -1,0 +1,99 @@
+
+/********* Heading **********/
+
+#heading {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+#dateInterface {
+    justify-self: end;
+    text-align: center;
+    display: grid;
+    grid-template-columns: 30px 250px 30px;
+}
+
+#date {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+
+/********* Meal Logs **********/
+
+#mealLogs {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.mealLog {
+    width: 100%;
+    border: solid 1px var(--light-accent-color);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+/* Meal Header */
+
+.mealHeader {
+    display: grid;
+    grid-template-columns: 1fr 1fr 70px;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.mealHeader p {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+/* Meal Log Table */
+
+.mealLogTable {
+    width: 100%;
+}
+
+.mealLogTable tr th {
+    text-align: left;
+}
+
+/********* Total Summary **********/
+
+#totalSummary {
+    width: 100%;
+    border: solid 1px var(--light-accent-color);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+#totalSummary h3 {
+    font-size: 10pt;
+    font-weight: normal;
+}
+
+#goalSummary {
+    margin-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: solid 1px var(--light-accent-color);
+}
+
+#macros {
+    padding-top: 20px;
+}
+
+#goalSummary, #macros {
+    display: flex;
+    gap: 20px;
+}
+
+#goalSummary section, #macros section{
+    border-radius: 10px;
+    padding: 20px;
+    background-color: var(--light-accent-color);
+}
+
+#totalCalories {
+    background-color: var(--dark-bg-color);
+    color: var(--dark-text-color);
+}

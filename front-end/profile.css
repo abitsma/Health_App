@@ -1,19 +1,19 @@
 
+main {
+    max-width: 700px;
+}
+
 #personalInformationForm {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#mainFormSection {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
-    row-gap: 20px;
-}
-
-#personalInformationForm section {
-    border: solid 2px var(--light-accent-color);
-    border-radius: 10px;
-    padding: 20px;
-}
-
-#finalEstimation {
-    grid-column: 1/-1;
+    row-gap: 10px;
 }
 
 #finalEstimation button {

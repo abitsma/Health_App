@@ -1,0 +1,1 @@
+// Log page JavaScript

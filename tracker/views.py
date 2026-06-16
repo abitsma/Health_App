@@ -6,14 +6,57 @@ from .models import FoodEntry, UserGoal
 
 def dashboard(request):
     today = timezone.now().date()
+    
+    entries = FoodEntry.objects.filter(date_added=today)
+
+    calorie_goal = 2000
+
+    meal_types = [
+        ("breakfast", "Breakfast"),
+        ("lunch", "Lunch"),
+        ("dinner", "Dinner"),
+        ("snack", "Snack"),
+    ]
+
+    meals = []
+
+    for meal_value, meal_label in meal_types:
+        meal_entries = entries.filter(meal_type=meal_value)
+
+        food_items = []
+
+        for entry in meal_entries:
+            food_items.append({
+                "name": entry.food_name,
+                "calories": entry.calories,
+                "protein": 0,
+                "carbs": 0,
+                "fat": 0,
+            })
+
+        meals.append({
+            "mealName": meal_label,
+            "mealType": meal_value,
+            "foodItems": food_items,
+        })
+
+    food_data = {
+        "targetCalories": calorie_goal,
+        "meals": meals,
+    }
+
+    return render(request, "tracker/index.html", {
+        "food_data": food_data
+    })
+
+
+# Log Page View
+def log(request):
+    today = timezone.now().date()
 
     entries = FoodEntry.objects.filter(
         date_added=today
     )
-
-    calories_consumed = sum(entry.calories for entry in entries)
-    calorie_goal = 2000
-    calories_remaining = calorie_goal - calories_consumed
 
     meals = {
         "breakfast": entries.filter(meal_type="breakfast"),
@@ -22,14 +65,17 @@ def dashboard(request):
         "snack": entries.filter(meal_type="snack"),
     }
 
+    total_calories = sum(entry.calories for entry in entries)
+
     context = {
-        "calories_consumed": calories_consumed,
-        "calorie_goal": calorie_goal,
-        "calories_remaining": calories_remaining,
         "meals": meals,
+        "total_calories": total_calories,
+        "calorie_goal": 2000,
+        "remaining": 2000 - total_calories,
     }
 
-    return render(request, "tracker/index.html", context)
+    return render(request, "tracker/log.html", context)
+
 
 
 def add_food(request):
