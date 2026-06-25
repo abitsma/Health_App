@@ -76,6 +76,38 @@
             </div>
         </section>
 
+<section class="widget" id="foodSearchWidget">
+    <h2>Search Food Database</h2>
+
+    <label for="foodSearchInput">Food name</label>
+    <input 
+        type="text" 
+        id="foodSearchInput" 
+        placeholder="Search for a food..."
+        autocomplete="off"
+    >
+
+    <label for="mealTypeSelect">Meal</label>
+    <select id="mealTypeSelect">
+        <option value="breakfast">Breakfast</option>
+        <option value="lunch">Lunch</option>
+        <option value="dinner">Dinner</option>
+        <option value="snack">Snack</option>
+    </select>
+
+    <p id="foodSearchStatus"></p>
+
+    <div id="foodSearchResults"></div>
+
+    <form id="addSearchedFoodForm" method="post" action="{% url 'add_food' %}">
+        {% csrf_token %}
+
+        <input type="hidden" name="food_name" id="selectedFoodName">
+        <input type="hidden" name="calories" id="selectedFoodCalories">
+        <input type="hidden" name="meal_type" id="selectedMealType">
+    </form>
+</section>
+
         <section class="widget" id="mealsOverview">
             <h2>Meals Overview</h2>
 

@@ -304,5 +304,89 @@ function formatIntString(intAsString) {
     let afterCommaSplice = intAsString.slice(commaSpliceIndex, intAsString.length);
     return beforeCommaSplice + "," + afterCommaSplice;
 }
+// Food database search elements
+const foodSearchInput = document.querySelector("#foodSearchInput");
+const foodSearchResults = document.querySelector("#foodSearchResults");
+const foodSearchStatus = document.querySelector("#foodSearchStatus");
+const mealTypeSelect = document.querySelector("#mealTypeSelect");
 
+const addSearchedFoodForm = document.querySelector("#addSearchedFoodForm");
+const selectedFoodName = document.querySelector("#selectedFoodName");
+const selectedFoodCalories = document.querySelector("#selectedFoodCalories");
+const selectedMealType = document.querySelector("#selectedMealType");
+
+let foodSearchTimer = null;
+
+if (foodSearchInput) {
+    foodSearchInput.addEventListener("input", function () {
+        clearTimeout(foodSearchTimer);
+
+        foodSearchTimer = setTimeout(function () {
+            searchFoodDatabase(foodSearchInput.value);
+        }, 300);
+    });
+}
+
+async function searchFoodDatabase(query) {
+    query = query.trim();
+
+    foodSearchResults.innerHTML = "";
+    foodSearchStatus.textContent = "";
+
+    if (query.length < 2) {
+        foodSearchStatus.textContent = "Type at least 2 characters to search.";
+        return;
+    }
+
+    foodSearchStatus.textContent = "Searching...";
+
+    try {
+        const response = await fetch(`/food-search/?q=${encodeURIComponent(query)}`);
+
+        if (!response.ok) {
+            foodSearchStatus.textContent = "Something went wrong with the search.";
+            return;
+        }
+
+        const data = await response.json();
+
+        foodSearchResults.innerHTML = "";
+
+        if (data.results.length === 0) {
+            foodSearchStatus.textContent = "No foods found.";
+            return;
+        }
+
+        foodSearchStatus.textContent = `Showing ${data.results.length} result(s).`;
+
+        data.results.forEach(function (food) {
+            const resultCard = document.createElement("div");
+            resultCard.classList.add("food-search-result");
+
+            const foodInfo = document.createElement("p");
+            foodInfo.textContent = `${food.name} - ${food.calories} calories`;
+
+            const addButton = document.createElement("button");
+            addButton.type = "button";
+            addButton.textContent = "+ Add";
+
+            addButton.addEventListener("click", function () {
+                selectedFoodName.value = food.name;
+                selectedFoodCalories.value = food.calories;
+                selectedMealType.value = mealTypeSelect.value;
+
+                addSearchedFoodForm.submit();
+            });
+
+            resultCard.appendChild(foodInfo);
+            resultCard.appendChild(addButton);
+
+            foodSearchResults.appendChild(resultCard);
+        });
+
+    } catch (error) {
+        foodSearchStatus.textContent = "Search failed. Check the console.";
+        console.error(error);
+    }
+}
 init()

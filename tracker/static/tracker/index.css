@@ -161,3 +161,35 @@
         grid-template-columns: repeat(4, 1fr);
     }
 }
+
+#foodSearchWidget {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+#foodSearchInput,
+#mealTypeSelect {
+    padding: 0.5rem;
+    font-size: 1rem;
+}
+
+#foodSearchResults {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.food-search-result {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.food-search-result p {
+    margin: 0;
+}
