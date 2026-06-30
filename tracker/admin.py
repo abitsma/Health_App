@@ -3,3 +3,4 @@ from .models import FoodEntry
 
 # Register your models here.
 admin.site.register(FoodEntry)
+# admin.site.register(UserGoal)
