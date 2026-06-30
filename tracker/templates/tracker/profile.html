@@ -1,0 +1,93 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="{% static 'tracker/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'tracker/profile.css' %}">
+    {{ person_data|json_script:"person-data" }}
+    <script src="{% static 'tracker/profile.js' %}" defer></script>
+</head>
+<body>
+    <header>
+        <h1>🔥CalorieTrack</h1>
+
+        <nav>
+            <ul>
+                <li><a href="index.html">Dashboard</a></li>
+                <li><a href="log.html">Log</a></li>
+                <li><a href="add-food.html">Add Food</a></li>
+                <li><a href="profile.html" id="currentLink">Profile</a></li>
+            </ul>
+        </nav>
+
+        <img> <!-- DarkMode/LightMode -->
+    </header>
+    <main>
+        <h1>Profile & Goals</h1>
+        <form id="personalInformationForm" method="POST" action="{% url 'profile' %}">
+            {% csrf_token %}
+            <section class="outline" id="mainFormSection">
+                <div>
+                    <label for="weight">Weight (kg)</label><br>
+                    <input type="number" id="weight" name="weight" required>
+                </div>
+                <div>
+                    <label for="height">Height (cm)</label><br>
+                    <input type="number" id="height" name="height" required>
+                </div>
+                <div>
+                    <label for="age">Age</label><br>
+                    <input type="number" id="age" name="age" required>
+                </div>
+                <fieldset>
+                    <legend>Gender</legend><br>
+
+                    <input type="radio" name="gender" value="male" id="male" checked>
+                    <label for="male">Male</label>
+
+                    <input type="radio" name="gender" value="female" id="female">
+                    <label for="female">Female</label>
+                </fieldset>
+                <fieldset>
+                    <legend>Activity Level</legend><br>
+
+                    <input type="radio" name="activityLevel" value="sedentary" id="sedentary" checked>
+                    <label for="sedentary">Sedentary</label><br>
+
+                    <input type="radio" name="activityLevel" value="light" id="light">
+                    <label for="light">Lightly Active</label><br>
+
+                    <input type="radio" name="activityLevel" value="moderate" id="moderate">
+                    <label for="moderate">Moderately Active</label><br>
+
+                    <input type="radio" name="activityLevel" value="heavy" id="heavy">
+                    <label for="heavy">Very Active</label><br>
+                </fieldset>
+                <fieldset>
+                    <legend>Goal</legend><br>
+
+                    <input type="radio" name="goal" value="loss" id="loss" checked>
+                    <label for="loss">Lose Weight</label><br>
+
+                    <input type="radio" name="goal" value="maintain" id="maintain">
+                    <label for="maintain">Maintain</label><br>
+
+                    <input type="radio" name="goal" value="gain" id="gain">
+                    <label for="gain">Gain Weight</label><br>
+                </fieldset>
+            </section>
+
+            <section id="finalEstimation" class="outline">
+                <h2>Estimated Daily Calories</h2>
+                <p>x,xxx calories / day</p>
+                <p>Estimated TDEE based on your profile and goal. This will update your daily calorie target.</p>
+                <button type="submit" id="save">Save Profile</button>
+            </section>
+        </form>
+    </main>
+</body>
+</html>

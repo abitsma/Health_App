@@ -107,7 +107,11 @@ function getFoodData() {
         return testFoodData;
     }
 
-    return JSON.parse(foodDataElement.textContent);
+    const data = JSON.parse(foodDataElement.textContent);
+
+    console.log(data);
+
+    return data;
 }
 
 
