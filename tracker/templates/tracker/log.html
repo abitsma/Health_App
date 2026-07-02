@@ -18,10 +18,10 @@
 
         <nav>
             <ul>
-                <li><a href="/">Dashboard</a></li>
-                <li><a href="/log/" id="currentLink">Log</a></li>
-                <li><a href="/add-food/">Add Food</a></li>
-                <li><a href="#">Profile</a></li>
+                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                <li><a href="{% url 'log' %}" id="currentLink">Log</a></li>
+                <li><a href="{% url 'add_food' %}">Add Food</a></li>
+                <li><a href="{% url 'profile' %}">Profile</a></li>
             </ul>
         </nav>
 
