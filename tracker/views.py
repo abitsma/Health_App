@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.contrib import messages
-from .models import FoodEntry, UserProfile
+from .models import FoodEntry
 
 
 def dashboard(request):
@@ -120,31 +120,3 @@ def add_food(request):
 
     messages.success(request, f"{food_name} was added successfully.")
     return redirect("dashboard")
-
-# Profile Page view
-def profile(request):
-    profile_obj, created = UserProfile.objects.get_or_create(id=1)
-
-    if request.method == "POST":
-        profile_obj.weight = request.POST.get("weight")
-        profile_obj.height = request.POST.get("height")
-        profile_obj.age = request.POST.get("age")
-        profile_obj.gender = request.POST.get("gender")
-        profile_obj.activity_level = request.POST.get("activityLevel")
-        profile_obj.goal= request.POST.get("goal")
-        profile_obj.save()
-
-        return redirect("profile")
-    
-    person_data = {
-        "weight": profile_obj.weight,
-        "height": profile_obj.height,
-        "age": profile_obj.age,
-        "gender": profile_obj.gender,
-        "activityLevel": profile_obj.activity_level,
-        "goal": profile_obj.goal,
-    }
-
-    return render(request, "tracker/profile.html", {
-        "person_data": person_data
-    })
