@@ -262,11 +262,11 @@ function setupButtons() {
 }
 
 function onAddFoodButtonClicked(event) {
-    window.location.href = "add-food.html";
+    window.location.href = "/add_food/";
 }
 
 function onViewLogButtonClicked(event) {
-    window.location.href = "log.html";
+    window.location.href = "/log/";
 }
 
 
