@@ -14,9 +14,8 @@ function init() {
     const personData = getPersonData();
     if (personData == null) return;
 
-    const startingData = testStartingData;
-    updateForm(startingData);
-    updateEstimatedCalories(startingData);
+    updateForm(personData);
+    updateEstimatedCalories(personData);
 }
 
 /*
@@ -34,7 +33,16 @@ function init() {
 
 */
 function getPersonData() {
-    return testStartingData;
+    const personDataElement = document.getElementById("person-data");
+
+    if (!personDataElement) {
+        console.error("Could not find person-data from Django.");
+        return null;
+    }
+
+    data = JSON.parse(personDataElement.textContent);
+
+    return data;
 }
 
 /*
@@ -127,4 +135,4 @@ function formatIntString(intAsString) {
 }
 
 init();
-personalInformationForm.addEventListener("submit", saveProfile);
+// personalInformationForm.addEventListener("submit", saveProfile);

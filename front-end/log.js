@@ -76,7 +76,7 @@ function init() {
 
     setupDate();
     const totalMacros = setupMeals(foodData.meals);
-    setupTotalSummary(totalMacros);
+    setupTotalSummary(totalMacros, foodData.targetCalories);
 }
 
 /*
@@ -115,9 +115,8 @@ function setupDate() {
 /*
     Sets up the total summary
 */
-function setupTotalSummary(totalMacros) {
+function setupTotalSummary(totalMacros, targetCalories) {
     const totalCalories = totalMacros.calories;
-    const targetCalories = foodData.targetCalories;
 
     // Set up goal summary
     const totalCaloriesElement = document.getElementById("totalCalories").querySelector("p");
@@ -196,7 +195,7 @@ function getMealHTML(meal, mealTotalCalories) {
             <div class="mealHeader">
                 <h2>${meal.mealName}</h2>
                 <p class="rightAlign">${formatInt(mealTotalCalories)} kcal</p>
-                <button type="button">+ Add</button>
+                <button type="button" onclick="location.href='add-food.html?mealType=${meal.mealName}'">+ Add</button>
             </div>
             <table class="mealLogTable">
                 ${getFoodItemsHTML(meal.foodItems)}

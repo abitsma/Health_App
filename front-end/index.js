@@ -82,7 +82,6 @@ function init() {
     const totalMacros = setupMealOverviews(meals);
     setupTodaysSummary(totalMacros.totalCalCount, targetCalories, totalMacros.totalProteinCount, totalMacros.totalCarbCount, totalMacros.totalFatCount);
     setupDailyProgress(totalMacros.totalCalCount, targetCalories);
-    setupButtons();
 }
 
 /*
@@ -173,7 +172,7 @@ function setupMealOverviews(meals) {
                 <div class="foodItems">
                     ${foodItemsHTML}
                 </div>
-                <button type="button" class="mealAddButton">+ Add</button>
+                <button type="button" class="mealAddButton" onclick="location.href='add-food.html?mealType=${meal.mealName}'">+ Add</button>
             </section>
             `;
     });
@@ -248,20 +247,6 @@ function setupDailyProgress(totalCalCount, targetCalories) {
     let barCalCountElement = dailyProgressElement.getElementsByClassName("barCalCount")[0];
     barCalCountElement.textContent = formatInt(totalCalCount) + " kcal";
 }
-
-function setupButtons() {
-    document.getElementById("viewLogButton").addEventListener("click", onViewLogButtonClicked);
-    document.getElementById("addFoodButton").addEventListener("click", onAddFoodButtonClicked);
-}
-
-function onAddFoodButtonClicked(event) {
-    window.location.href = "add-food.html";
-}
-
-function onViewLogButtonClicked(event) {
-    window.location.href = "log.html";
-}
-
 
 /*
     Adds comma to a given int
