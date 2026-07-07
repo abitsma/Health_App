@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.contrib import messages
-from .models import FoodEntry, UserGoal
+from .models import FoodEntry
 
 
 def dashboard(request):
