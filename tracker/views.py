@@ -2,12 +2,16 @@ from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.contrib import messages
 from .models import FoodEntry, UserProfile
+from django.contrib.auth.decorators import login_required
 
-
+@login_required
 def dashboard(request):
     today = timezone.now().date()
     
-    entries = FoodEntry.objects.filter(date_added=today)
+    entries = FoodEntry.objects.filter(
+        user=request.user,
+        date_added=today,
+    )
 
     calorie_goal = 2000
 
@@ -29,9 +33,9 @@ def dashboard(request):
             food_items.append({
                 "name": entry.food_name,
                 "calories": entry.calories,
-                "protein": 0,
-                "carbs": 0,
-                "fat": 0,
+                "protein": entry.protein,
+                "carbs": entry.carbs,
+                "fat": entry.fat,
             })
 
         meals.append({
@@ -51,10 +55,13 @@ def dashboard(request):
 
 
 # Log Page View
+@login_required
 def log(request):
     today = timezone.now().date()
 
-    entries = FoodEntry.objects.filter(date_added=today)
+    entries = FoodEntry.objects.filter(
+        date_added=today
+    )
 
     meal_types = [
         ("breakfast", "Breakfast"),
@@ -120,8 +127,7 @@ def log(request):
 
     return render(request, "tracker/log.html", context)
 
-
-
+@login_required
 def add_food(request):
     if request.method != "POST":
         messages.error(request, "Food entries must be submitted from the form.")
@@ -156,7 +162,7 @@ def add_food(request):
         return redirect("dashboard")
 
     FoodEntry.objects.create(
-        user=request.user if request.user.is_authenticated else None,
+        user=request.user,
         food_name=food_name,
         calories=calories,
         meal_type=meal_type
@@ -165,19 +171,44 @@ def add_food(request):
     messages.success(request, f"{food_name} was added successfully.")
     return redirect("dashboard")
 
-
+@login_required
 def profile(request):
-    profile_obj, created = UserProfile.objects.get_or_create(id=1)
+    profile_obj, created = UserProfile.objects.get_or_create(
+        user=request.user
+    )
 
     if request.method == "POST":
-        profile_obj.weight = request.POST.get("weight")
-        profile_obj.height = request.POST.get("height")
-        profile_obj.age = request.POST.get("age")
-        profile_obj.gender = request.POST.get("gender")
-        profile_obj.activity_level = request.POST.get("activityLevel")
-        profile_obj.goal = request.POST.get("goal")
+        try:
+            weight = float(request.POST.get("weight",0))
+            height = float(request.POST.get("height",0))
+            age = int(request.POST.get("age",0))
+        except (TypeError, ValueError):
+            messages.error(
+                request,
+                "Weight, height, and age must be valid numbers."
+            )
+            return redirect("profile")
+        
+        gender = request.POST.get("gender")
+        activity_level = request.POST.get("activityLevel")
+        goal = request.POST.get("goal")
+
+        if weight <= 0 or height <= 0 or age <= 0:
+            messages.error(
+                request,
+                "Weight, height, and age must be greater than zero."
+            )
+            return redirect("profile")
+
+        profile_obj.weight = weight
+        profile_obj.height = height
+        profile_obj.age = age
+        profile_obj.gender = gender
+        profile_obj.activity_level = activity_level
+        profile_obj.goal = goal
         profile_obj.save()
 
+        messages.success(request, "Your profile was saved.")
         return redirect("profile")
 
     person_data = {

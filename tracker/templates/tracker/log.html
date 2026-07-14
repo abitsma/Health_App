@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Log</title>
 
-    <link rel="stylesheet" href="{% static 'tracker/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'tracker/styles.css' %}?v=2">
     <link rel="stylesheet" href="{% static 'tracker/log.css' %}">
 
     <script src="{% static 'tracker/log.js' %}" defer></script>
@@ -18,14 +18,14 @@
 <header>
     <h1>🔥CalorieTrack</h1>
 
-    <nav>
-        <ul>
-            <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
-            <li><a href="{% url 'log' %}" id="currentLink">Log</a></li>
-            <li><a href="#">Add Food</a></li>
-            <li><a href="{% url 'profile' %}">Profile</a></li>
-        </ul>
-    </nav>
+        <nav>
+            <ul>
+                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                <li><a href="{% url 'log' %}" id="currentLink">Log</a></li>
+                <li><a href="{% url 'add_food' %}">Add Food</a></li>
+                <li><a href="{% url 'profile' %}">Profile</a></li>
+            </ul>
+        </nav>
 
     <img>
 </header>
