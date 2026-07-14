@@ -54,24 +54,68 @@ def dashboard(request):
 def log(request):
     today = timezone.now().date()
 
-    entries = FoodEntry.objects.filter(
-        date_added=today
-    )
+    entries = FoodEntry.objects.filter(date_added=today)
 
-    meals = {
-        "breakfast": entries.filter(meal_type="breakfast"),
-        "lunch": entries.filter(meal_type="lunch"),
-        "dinner": entries.filter(meal_type="dinner"),
-        "snack": entries.filter(meal_type="snack"),
-    }
+    meal_types = [
+        ("breakfast", "Breakfast"),
+        ("lunch", "Lunch"),
+        ("dinner", "Dinner"),
+        ("snack", "Snack"),
+    ]
 
-    total_calories = sum(entry.calories for entry in entries)
+    meals = []
+
+    total_calories = 0
+    total_protein = 0
+    total_carbs = 0
+    total_fat = 0
+
+    for meal_value, meal_label in meal_types:
+
+        meal_entries = entries.filter(meal_type=meal_value)
+
+        food_items = []
+
+        meal_calories = 0
+        meal_protein = 0
+        meal_carbs = 0
+        meal_fat = 0
+
+        for entry in meal_entries:
+
+            food_items.append({
+                "name": entry.food_name,
+                "calories": entry.calories,
+                "protein": entry.protein,
+                "carbs": entry.carbs,
+                "fat": entry.fat,
+            })
+
+            meal_calories += entry.calories
+            meal_protein += entry.protein
+            meal_carbs += entry.carbs
+            meal_fat += entry.fat
+
+        total_calories += meal_calories
+        total_protein += meal_protein
+        total_carbs += meal_carbs
+        total_fat += meal_fat
+
+        meals.append({
+            "mealName": meal_label,
+            "mealType": meal_value,
+            "mealCalories": meal_calories,
+            "foodItems": food_items,
+        })
 
     context = {
         "meals": meals,
         "total_calories": total_calories,
         "calorie_goal": 2000,
         "remaining": 2000 - total_calories,
+        "total_protein": total_protein,
+        "total_carbs": total_carbs,
+        "total_fat": total_fat,
     }
 
     return render(request, "tracker/log.html", context)

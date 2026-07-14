@@ -12,115 +12,143 @@
 
     <script src="{% static 'tracker/log.js' %}" defer></script>
 </head>
+
 <body>
-    <header>
-        <h1>🔥CalorieTrack</h1>
 
-        <nav>
-            <ul>
-                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
-                <li><a href="{% url 'log' %}" id="currentLink">Log</a></li>
-                <li><a href="{% url 'add_food' %}">Add Food</a></li>
-                <li><a href="{% url 'profile' %}">Profile</a></li>
-            </ul>
-        </nav>
+<header>
+    <h1>🔥CalorieTrack</h1>
 
-        <img>
-    </header>
+    <nav>
+        <ul>
+            <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+            <li><a href="{% url 'log' %}" id="currentLink">Log</a></li>
+            <li><a href="#">Add Food</a></li>
+            <li><a href="{% url 'profile' %}">Profile</a></li>
+        </ul>
+    </nav>
 
-    <main>
+    <img>
+</header>
 
-        <section id="heading">
-            <h1>Daily Log</h1>
+<main>
+
+<section id="heading">
+    <h1>Daily Log</h1>
+
+    <section id="dateInterface">
+        <button type="button">&lt;</button>
+        <p id="date">
+            {% now "l, F j, Y" %}
+        </p>
+        <button type="button">&gt;</button>
+    </section>
+</section>
+
+<section id="mealLogs">
+
+{% for meal in meals %}
+
+<section class="mealLog">
+
+    <div class="mealHeader">
+
+        <h2>{{ meal.mealName }}</h2>
+
+        <p class="rightAlign">
+            {{ meal.mealCalories }} kcal
+        </p>
+
+        <button type="button">
+            + Add
+        </button>
+
+    </div>
+
+    {% if meal.foodItems %}
+
+    <table class="mealLogTable">
+
+        <tr>
+            <th>Food</th>
+            <th>Cal</th>
+            <th>Protein</th>
+            <th>Carbs</th>
+            <th>Fat</th>
+        </tr>
+
+        {% for item in meal.foodItems %}
+
+        <tr>
+            <td>{{ item.name }}</td>
+            <td>{{ item.calories }}</td>
+            <td>{{ item.protein }}</td>
+            <td>{{ item.carbs }}</td>
+            <td>{{ item.fat }}</td>
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+    {% else %}
+
+    <p style="text-align: center; width: 100%; margin: 20px 0;">
+        No foods logged
+    </p>
+
+    {% endif %}
+
+</section>
+
+{% endfor %}
+
+</section>
+
+<section id="totalSummary">
+
+    <h2>Total Summary</h2>
+
+    <section id="goalSummary">
+
+        <section id="totalCalories">
+            <h3>Total Calories</h3>
+            <p>{{ total_calories }} kcal</p>
         </section>
 
-        <section id="mealLogs">
-
-            {% for meal_name, meal_entries in meals.items %}
-
-            <section class="mealLog">
-                <div class="mealHeader">
-                    <h2>{{ meal_name|title }}</h2>
-
-                    <p class="rightAlign">
-                        {% for entry in meal_entries %}
-                            {{ entry.calories }}
-                        {% endfor %}
-                    </p>
-
-                    <form method="POST" action="{% url 'add_food' %}">
-                        {% csrf_token %}
-
-                        <input type="hidden" name="meal_type" value="{{ meal_name }}">
-
-                        <input type="text"
-                               name="food_name"
-                               placeholder="Food Name"
-                               required>
-
-                        <input type="number"
-                               name="calories"
-                               placeholder="Calories"
-                               required>
-
-                        <button type="submit">+ Add</button>
-                    </form>
-                </div>
-
-                <table class="mealLogTable">
-
-                    <tr>
-                        <th>Food</th>
-                        <th>Calories</th>
-                    </tr>
-
-                    {% if meal_entries %}
-
-                        {% for entry in meal_entries %}
-                        <tr>
-                            <td>{{ entry.food_name }}</td>
-                            <td>{{ entry.calories }}</td>
-                        </tr>
-                        {% endfor %}
-
-                    {% else %}
-
-                        <tr>
-                            <td colspan="2">No foods logged</td>
-                        </tr>
-
-                    {% endif %}
-
-                </table>
-            </section>
-
-            {% endfor %}
-
+        <section id="goal">
+            <h3>Goal</h3>
+            <p>{{ calorie_goal }} kcal</p>
         </section>
 
-        <section id="totalSummary">
-            <h2>Total Summary</h2>
-
-            <section id="goalSummary">
-
-                <section id="totalCalories">
-                    <h3>Total Calories</h3>
-                    <p>{{ total_calories }} kcal</p>
-                </section>
-
-                <section id="goal">
-                    <h3>Goal</h3>
-                    <p>{{ calorie_goal }} kcal</p>
-                </section>
-
-                <section id="remaining">
-                    <h3>Remaining</h3>
-                    <p>{{ remaining }} kcal</p>
-                </section>
-
-            </section>
+        <section id="remaining">
+            <h3>Remaining</h3>
+            <p>{{ remaining }} kcal</p>
         </section>
 
-    </main>
+    </section>
+
+    <section id="macros">
+
+        <section id="protein">
+            <h3>Protein</h3>
+            <p>{{ total_protein }}g</p>
+        </section>
+
+        <section id="carbs">
+            <h3>Carbs</h3>
+            <p>{{ total_carbs }}g</p>
+        </section>
+
+        <section id="fat">
+            <h3>Fat</h3>
+            <p>{{ total_fat }}g</p>
+        </section>
+
+    </section>
+
+</section>
+
+</main>
+
 </body>
 </html>
