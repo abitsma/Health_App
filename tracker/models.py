@@ -12,9 +12,7 @@ class FoodEntry(models.Model):
 
     user = models.ForeignKey(
         User,
-        on_delete=models.CASCADE,
-        null=True,
-        blank=True
+        on_delete=models.CASCADE
     )
     food_name = models.CharField(max_length=100)
     calories = models.IntegerField()
@@ -28,6 +26,11 @@ class FoodEntry(models.Model):
         return f"{self.food_name} - {self.calories} cal"
 
 class UserProfile(models.Model):
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE
+    )
+    
     weight = models.FloatField(default=0)
     height = models.FloatField(default=0)
     age = models.IntegerField(default=0)
