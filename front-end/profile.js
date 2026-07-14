@@ -16,7 +16,7 @@ function init() {
 
     const startingData = testStartingData;
     updateForm(startingData);
-    updateEstimatedCalories(startingData);
+    updateEstimatedCalories();
 }
 
 /*
@@ -51,7 +51,8 @@ function updateForm(personData) {
     personalInformationForm.goal.value = personData.goal;
 }
 
-function updateEstimatedCalories(personData) {
+function updateEstimatedCalories() {
+    const personData = getFormData();
     const estimatedCalories = formatInt(calculatedEstimatedCalories(personData));
     const estimatedCaloriesElement = document.getElementById("finalEstimation").querySelector("p");
     estimatedCaloriesElement.textContent = `${estimatedCalories} calories / day`
@@ -63,14 +64,7 @@ function updateEstimatedCalories(personData) {
 */
 function saveProfile(event) {
     event.preventDefault();
-    const newData = {
-        weight: personalInformationForm.weight.value,
-        height: personalInformationForm.height.value,
-        age: personalInformationForm.age.value,
-        gender: personalInformationForm.gender.value,
-        activityLevel: personalInformationForm.activityLevel.value,
-        goal: personalInformationForm.goal.value,
-    };
+    const newData = getFormData();
     console.log(newData);
 
     /*
@@ -81,6 +75,20 @@ function saveProfile(event) {
 }
 
 /*
+    Returns the data in the form
+*/
+function getFormData() {
+    return {
+        weight: personalInformationForm.weight.value,
+        height: personalInformationForm.height.value,
+        age: personalInformationForm.age.value,
+        gender: personalInformationForm.gender.value,
+        activityLevel: personalInformationForm.activityLevel.value,
+        goal: personalInformationForm.goal.value,
+    };
+}
+
+/*
 Calculates the estimated calories per day given what was input.
 TODO Actually implement this function
 
@@ -88,7 +96,38 @@ Return:
 The estimated calories needed per day
 */
 function calculatedEstimatedCalories(personData) {
-    return 0;
+	const { weight, height, age, gender, activityLevel, goal } = personData;
+
+	let bmr;
+	if (gender === "male") {
+		bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+	} else {
+		bmr = 10 * weight + 6.25 * height - 5 * age - 161;
+	}
+
+	const activityMultipliers = {
+		sedentary: 1.2,
+		light: 1.375,
+		moderate: 1.55,
+		heavy: 1.725
+	};
+
+	const multiplier = activityMultipliers[activityLevel];
+	if (!multiplier) {
+		throw new Error(`Invalid activityLevel: ${activityLevel}`);
+	}
+
+	let tdee = bmr * multiplier;
+
+	if (goal === "loss") {
+		tdee -= 500;
+	} else if (goal === "gain") {
+		tdee += 500;
+	} else if (goal !== "maintain") {
+		throw new Error(`Invalid goal: ${goal}`);
+	}
+
+	return Math.round(tdee);
 }
 
 /*
@@ -128,3 +167,4 @@ function formatIntString(intAsString) {
 
 init();
 personalInformationForm.addEventListener("submit", saveProfile);
+personalInformationForm.addEventListener("input", updateEstimatedCalories)
