@@ -19,3 +19,102 @@ main {
 #finalEstimation button {
     width: 100%;
 }
+
+.outline {
+    border: 1px solid var(--light-accent-color);
+    border-radius: 10px;
+    padding: 20px;
+    background-color: var(--light-bg-color);
+}
+
+#mainFormSection > div {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+#mainFormSection label, #mainFormSection legend {
+    font-weight: 600;
+}
+
+#mainFormSection input[type="number"] {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 12px;
+
+    border: 1px solid var(--light-accent-color);
+    border-radius: 7.5px;
+
+    font-size: 1rem;
+    background-color: var(--light-bg-color);
+}
+
+#mainFormSection input[type="number"]:focus {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 1px;
+}
+
+#mainFormSection fieldset {
+    border: 1px solid var(--light-accent-color);
+    border-radius: 10px;
+    padding: 16px;
+}
+
+#mainFormSection input[type="radio"] {
+    margin-right: 6px;
+    accent-color: var(--accent-color);
+}
+
+#mainFormSection fieldset label {
+    display: inline-block;
+    margin-bottom: 8px;
+}
+
+#finalEstimation {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    text-align: center;
+}
+
+#finalEstimation > p:first-of-type {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+#finalEstimation > p:last-of-type {
+    color: #666;
+    line-height: 1.5;
+}
+
+#save {
+    padding: 12px;
+    margin-top: 8px;
+
+    border: none;
+    border-radius: 8px;
+
+    background-color: var(--accent-color);
+    color: white;
+
+    font-weight: 600;
+}
+
+#save:hover {
+    background-color: #e85d2a;
+}
+
+main > h1 {
+    margin-bottom: 5px;
+}
+
+@media screen and (max-width: 650px) {
+    #mainFormSection {
+        grid-template-columns: 1fr;
+    }
+
+    main {
+        padding: 20px;
+    }
+}
