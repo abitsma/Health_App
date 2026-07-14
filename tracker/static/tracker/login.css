@@ -1,0 +1,93 @@
+#loginMain {
+    min-height: calc(100vh - 100px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 20px;
+}
+
+.loginWidget {
+    width: 100%;
+    max-width: 450px;
+
+    border-style: solid;
+    border-color: var(--light-accent-color);
+    border-width: 1px;
+    border-radius: 10px;
+
+    padding: 30px;
+
+    display: flex;
+    flex-direction: column;
+    row-gap: 24px;
+}
+
+.loginHeading {
+    text-align: center;
+}
+
+.loginHeading h1 {
+    margin-bottom: 8px;
+}
+
+.loginHeading p {
+    margin: 0;
+}
+
+#loginForm {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+}
+
+.formGroup label {
+    font-weight: bold;
+}
+
+.formGroup input {
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 12px;
+
+    border-style: solid;
+    border-color: var(--light-accent-color);
+    border-width: 1px;
+    border-radius: 8px;
+
+    font: inherit;
+}
+
+.formGroup input:focus {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 1px;
+}
+
+#loginButton {
+    width: 100%;
+    padding: 12px;
+    margin-top: 5px;
+}
+
+.errorMessage {
+    background-color: var(--light-accent-color);
+    border-radius: 10px;
+    padding: 12px;
+    text-align: center;
+}
+
+.errorMessage p {
+    margin: 0;
+}
+
+@media screen and (min-width: 700px) {
+    .loginWidget {
+        padding: 40px;
+    }
+}
