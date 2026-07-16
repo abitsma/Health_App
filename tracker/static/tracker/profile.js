@@ -10,7 +10,7 @@ function init() {
     }
 
     updateForm(personData);
-    updateEstimatedCalories(personData);
+    updateEstimatedCalories();;
 }
 
 /*
@@ -57,20 +57,49 @@ function updateForm(personData) {
         personData.goal;
 }
 
+function getFormData() {
+
+    return {
+
+        weight:
+            Number(personalInformationForm.weight.value),
+
+        height:
+            Number(personalInformationForm.height.value),
+
+        age:
+            Number(personalInformationForm.age.value),
+
+        gender:
+            personalInformationForm.gender.value,
+
+        activityLevel:
+            personalInformationForm.activityLevel.value,
+
+        goal:
+            personalInformationForm.goal.value,
+    };
+}
+
 /*
     Updates the estimated calories display
 */
-function updateEstimatedCalories(personData) {
+function updateEstimatedCalories() {
+
+    const personData =
+        getFormData();
 
     const estimatedCalories =
-        calculatedEstimatedCalories(personData);
+        formatInt(
+            calculatedEstimatedCalories(personData)
+        );
 
     const estimatedCaloriesElement =
         document.getElementById("finalEstimation")
             .querySelector("p");
 
     estimatedCaloriesElement.textContent =
-        formatInt(estimatedCalories) +
+        estimatedCalories +
         " calories / day";
 }
 
@@ -171,26 +200,8 @@ function saveProfile(event) {
 
     event.preventDefault();
 
-    const newData = {
-
-        weight:
-            personalInformationForm.weight.value,
-
-        height:
-            personalInformationForm.height.value,
-
-        age:
-            personalInformationForm.age.value,
-
-        gender:
-            personalInformationForm.gender.value,
-
-        activityLevel:
-            personalInformationForm.activityLevel.value,
-
-        goal:
-            personalInformationForm.goal.value,
-    };
+    const newData =
+    getFormData();
 
     console.log(newData);
 }
@@ -239,3 +250,8 @@ function formatIntString(intAsString) {
 }
 
 init();
+
+personalInformationForm.addEventListener(
+    "input",
+    updateEstimatedCalories
+);
