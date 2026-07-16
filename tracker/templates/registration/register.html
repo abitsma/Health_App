@@ -1,0 +1,47 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account | CalorieTrack</title>
+
+    <link rel="stylesheet" href="{% static 'tracker/styles.css' %}?v=2">
+    <link rel="stylesheet" href="{% static 'tracker/login.css' %}">
+</head>
+
+<body>
+
+<header>
+    <h1>🔥CalorieTrack</h1>
+</header>
+
+<main id="loginMain">
+    <section class="loginWidget">
+
+        <div class="loginHeading">
+            <h1>Create Account</h1>
+            <p>Create an account to start tracking your calories.</p>
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit" id="loginButton">
+                Create Account
+            </button>
+        </form>
+
+        <p>
+            Already have an account?
+            <a href="{% url 'login' %}">Log In</a>
+        </p>
+
+    </section>
+</main>
+
+</body>
+</html>

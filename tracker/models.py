@@ -14,12 +14,13 @@ class FoodEntry(models.Model):
         User,
         on_delete=models.CASCADE
     )
+
     food_name = models.CharField(max_length=100)
     calories = models.IntegerField()
     protein = models.IntegerField(default=0)
     carbs = models.IntegerField(default=0)
     fat = models.IntegerField(default=0)
-    meal_type= models.CharField(max_length=20, choices=MEAL_CHOICES)
+    meal_type = models.CharField(max_length=20, choices=MEAL_CHOICES)
     date_added = models.DateField(auto_now_add=True)
 
     def __str__(self):

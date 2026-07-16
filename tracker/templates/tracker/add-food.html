@@ -1,0 +1,224 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Food</title>
+
+    <link rel="stylesheet" href="{% static 'tracker/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'tracker/add-food.css' %}">
+
+    <script src="{% static 'tracker/add-food.js' %}" defer></script>
+</head>
+
+<body>
+
+<header>
+    <h1>🔥CalorieTrack</h1>
+
+    <nav>
+        <ul>
+            <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+            <li><a href="{% url 'log' %}">Log</a></li>
+            <li><a href="{% url 'add_food' %}" id="currentLink">Add Food</a></li>
+            <li><a href="{% url 'profile' %}">Profile</a></li>
+        </ul>
+    </nav>
+
+    <img alt="">
+</header>
+
+<main>
+
+    <h1>Add Food</h1>
+
+    <section id="searchSection" class="outline">
+
+        <h2>Search Food</h2>
+
+        <form id="searchForm" method="GET">
+
+            <input
+                type="text"
+                name="search"
+                placeholder="Search food..."
+                value="{{ search }}">
+
+            {% if meal_type %}
+                <input
+                    type="hidden"
+                    name="mealType"
+                    value="{{ meal_type }}">
+            {% endif %}
+
+            <button
+                type="submit"
+                class="reverseColor">
+                Search
+            </button>
+
+        </form>
+
+        {% if results %}
+
+        <hr>
+
+        {% for food in results %}
+
+        <div
+            class="searchResult"
+            style="margin:15px 0; padding:10px; border:1px solid #ccc; border-radius:8px;">
+
+            <strong>{{ food.name }}</strong><br>
+
+            {{ food.calories }} kcal |
+            Protein {{ food.protein }} g |
+            Carbs {{ food.carbs }} g |
+            Fat {{ food.fat }} g
+
+            <br><br>
+
+            <button
+                type="button"
+                class="useFoodButton"
+
+                data-name="{{ food.name }}"
+                data-calories="{{ food.calories }}"
+                data-protein="{{ food.protein }}"
+                data-carbs="{{ food.carbs }}"
+                data-fat="{{ food.fat }}">
+
+                Use
+
+            </button>
+
+        </div>
+
+        {% endfor %}
+
+        {% endif %}
+
+    </section>
+
+    <section id="manualEntrySection" class="outline">
+
+        <h2>Manual Entry</h2>
+
+        <form
+            id="manualEntryForm"
+            method="POST"
+            action="{% url 'add_food' %}">
+
+            {% csrf_token %}
+
+            <div class="full">
+                <label for="food_name">Food Name</label><br>
+
+                <input
+                    type="text"
+                    id="food_name"
+                    name="food_name"
+                    placeholder="e.g. Grilled Chicken"
+                    required>
+            </div>
+
+            <div>
+                <label for="calories">Calories (kcal)</label><br>
+
+                <input
+                    type="number"
+                    id="calories"
+                    name="calories"
+                    placeholder="0"
+                    required>
+            </div>
+
+            <div>
+                <label for="protein">Protein (g)</label><br>
+
+                <input
+                    type="number"
+                    id="protein"
+                    name="protein"
+                    placeholder="0"
+                    required>
+            </div>
+
+            <div>
+                <label for="carbs">Carbs (g)</label><br>
+
+                <input
+                    type="number"
+                    id="carbs"
+                    name="carbs"
+                    placeholder="0"
+                    required>
+            </div>
+
+            <div>
+                <label for="fat">Fat (g)</label><br>
+
+                <input
+                    type="number"
+                    id="fat"
+                    name="fat"
+                    placeholder="0"
+                    required>
+            </div>
+
+            <fieldset class="full">
+                <legend>Meal Type</legend><br>
+
+                <input
+                    type="radio"
+                    name="meal_type"
+                    value="breakfast"
+                    id="breakfast"
+                    required
+                    {% if meal_type == "breakfast" %}checked{% endif %}>
+                <label for="breakfast">Breakfast</label>
+
+                <input
+                    type="radio"
+                    name="meal_type"
+                    value="lunch"
+                    id="lunch"
+                    {% if meal_type == "lunch" %}checked{% endif %}>
+                <label for="lunch">Lunch</label>
+
+                <input
+                    type="radio"
+                    name="meal_type"
+                    value="dinner"
+                    id="dinner"
+                    {% if meal_type == "dinner" %}checked{% endif %}>
+                <label for="dinner">Dinner</label>
+
+                <input
+                    type="radio"
+                    name="meal_type"
+                    value="snack"
+                    id="snack"
+                    {% if meal_type == "snack" %}checked{% endif %}>
+                <label for="snack">Snack</label>
+            </fieldset>
+
+            <button
+                type="submit"
+                id="addFoodButton"
+                class="reverseColor full">
+
+                + Add Food
+
+            </button>
+
+        </form>
+
+    </section>
+
+</main>
+
+</body>
+</html>

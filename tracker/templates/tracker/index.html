@@ -2,117 +2,305 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Dashboard</title>
-    <link rel="stylesheet" href="{% static 'tracker/styles.css' %}?v=2">
+
+    <link rel="stylesheet" href="{% static 'tracker/styles.css' %}">
     <link rel="stylesheet" href="{% static 'tracker/index.css' %}">
+
     {{ food_data|json_script:"food-data" }}
+
+    <script>
+        window.addFoodURL = "{% url 'add_food' %}";
+    </script>
+
     <script src="{% static 'tracker/index.js' %}" defer></script>
 </head>
+
+
 <body>
 
-    <header>
-        <h1>🔥CalorieTrack</h1>
+<header>
 
-        <nav>
-            <ul>
-                <li><a href="{% url 'dashboard' %}" id="currentLink">Dashboard</a></li>
-                <li><a href="{% url 'log' %}">Log</a></li>
-                <li><a href="{% url 'add_food' %}">Add Food</a></li>
-                <li><a href="{% url 'profile' %}">Profile</a></li>
+    <h1>🔥CalorieTrack</h1>
 
-                <li class="logoutItem">
-                    <div class="accountControls">
-                        <span class="userGreeting">Welcome, {{ request.user.username }}</span>
-    
-                        <form method="POST" action="{% url 'logout' %}">
-                            {% csrf_token %}
-                            <button type="submit" id="logoutButton">Log Out</button>
-                        </form>
-                    </div>
-                </li>
-            </ul>
-        </nav>
 
-        <img> <!-- DarkMode/LightMode -->
-    </header>
+    <nav>
 
-    <main>
-        <section id="heading">
-            <h1>Dashboard</h1>
-            <p id="date">Day, Month #, 20XX</p>
+        <ul>
+
+            <li>
+                <a href="{% url 'dashboard' %}" id="currentLink">
+                    Dashboard
+                </a>
+            </li>
+
+
+            <li>
+                <a href="{% url 'log' %}">
+                    Log
+                </a>
+            </li>
+
+
+            <li>
+                <a href="{% url 'add_food' %}">
+                    Add Food
+                </a>
+            </li>
+
+
+            <li>
+                <a href="{% url 'profile' %}">
+                    Profile
+                </a>
+            </li>
+
+        </ul>
+
+    </nav>
+
+
+    <img>
+
+</header>
+
+
+
+<main>
+
+
+<section id="heading">
+
+    <h1>
+        Dashboard
+    </h1>
+
+
+    <p id="date">
+        Day, Month #, 20XX
+    </p>
+
+</section>
+
+
+
+
+<section class="widget" id="summary">
+
+
+    <h2>
+        Today's Summary
+    </h2>
+
+
+    <p class="calorieCount">
+
+        <strong>
+            X,XXX
+        </strong>
+
+        /
+        X,XXX
+
+    </p>
+
+
+
+    <p class="remainingCalories">
+        xxx kcal remaining
+    </p>
+
+
+
+    <div id="macros">
+
+
+        <section class="macro" id="proteinMacro">
+
+            <div class="dot" id="blueDot"></div>
+
+            <h3>
+                Protein
+            </h3>
+
+            <p>
+                <strong>
+                    xx
+                </strong>
+                g
+            </p>
+
         </section>
 
-        <section class="widget" id="summary">
-            <h2>Today's Summary</h2>
-            <p class="calorieCount"><strong>X,XXX</strong> / X,XXX</p>
-            <p class="remainingCalories">xxx kcal remaining</p>
 
-            <div id="macros">
-                <section class="macro" id="proteinMacro">
-                    <div class="dot" id="blueDot"></div>
-                    <h3>Protein</h3>
-                    <p><strong>xx</strong>g</p>
-                </section>
-                <section class="macro" id="carbMacro">
-                    <div class="dot" id="yellowDot"></div>
-                    <h3>Carbs</h3>
-                    <p><strong>xx</strong>g</p>
-                </section>
-                <section class="macro" id="fatMacro">
-                    <div class="dot" id="redDot"></div>
-                    <h3>Fat</h3>
-                    <p><strong>xx</strong>g</p>
-                </section>
-            </div>
+
+
+        <section class="macro" id="carbMacro">
+
+            <div class="dot" id="yellowDot"></div>
+
+            <h3>
+                Carbs
+            </h3>
+
+            <p>
+                <strong>
+                    xx
+                </strong>
+                g
+            </p>
+
+        </section>
+
+
+
+
+
+        <section class="macro" id="fatMacro">
+
+            <div class="dot" id="redDot"></div>
+
+            <h3>
+                Fat
+            </h3>
+
+            <p>
+                <strong>
+                    xx
+                </strong>
+                g
+            </p>
+
+        </section>
+
+
+    </div>
+
+
+</section>
+
+
+
+
+
+<section class="widget" id="dailyProgress">
+
+
+    <h2>
+        Daily Progress
+    </h2>
+
+
+    <p class="percentOfGoal">
+        XX% of daily goal
+    </p>
+
+
+    <p class="rightAlign fractionalProgress">
+        x,xxx / x,xxx kcal
+    </p>
+
+
+
+    <div class="progressBar" id="dailyProgressBar">
+
+        <div></div>
+
+    </div>
+
+
+
+    <p>
+        0
+    </p>
+
+
+    <p class="rightAlign barCalCount">
+        x,xxx kcal
+    </p>
+
+
+</section>
+
+
+
+
+
+
+<section class="widget" id="quickActions">
+
+
+    <h2>
+        Quick Actions
+    </h2>
+
+
+
+    <div id="quickActionButtons">
+
+
+        <button
+            type="button"
+            class="reverseColor"
+            id="addFoodButton"
+            data-url="{% url 'add_food' %}">
             
-        </section>
+            + Add Food
 
-        <section class="widget" id="dailyProgress">
-            <h2>Daily Progress</h2>
-            <p class="percentOfGoal">XX% of daily goal</p>
-            <p class="rightAlign fractionalProgress">x,xxx / x,xxx kcal</p>
-            <div class="progressBar" id="dailyProgressBar"><div></div></div>
-            <p>0</p>
-            <p class="rightAlign barCalCount">x,xxx kcal</p>
-        </section>
+        </button>
 
-        <section class="widget" id="quickActions">
-            <h2>Quick Actions</h2>
-            <div id="quickActionButtons">
-                <button type="button" class="reverseColor" id="addFoodButton">+ Add Food</button>
-                <button type="button" id="viewLogButton">View Log</button>
-            </div>
-        </section>
 
-        <section class="widget" id="mealsOverview">
-            <h2>Meals Overview</h2>
 
-            <div id="mealOverviews">
-                <!-- This is what a meal overview would look like
-
-                <section class="mealOverview">
-                    <div class="mealOverviewHeader">
-                        <h3>Breakfast</h3>
-                        <p class="rightAlign total">xxx kcal</p>
-                    </div>
-                    <div class="foodItems">
-                        <div class="foodItem">
-                            <p>Food Name</p>
-                            <p class="rightAlign">xxx</p>
-                        </div>
-                        <p class="noFoodItem">Nothing logged</p>
-                    </div>
-                    <button type="button" class="mealAddButton">+ Add</button>
-                </section>
-
-                -->
-            </div>
+        <button
+            type="button"
+            id="viewLogButton"
+            data-url="{% url 'log' %}">
             
-        </section>
+            View Log
 
-    </main>
+        </button>
+
+
+    </div>
+
+
+</section>
+
+
+
+
+
+
+<section class="widget" id="mealsOverview">
+
+
+    <h2>
+        Meals Overview
+    </h2>
+
+
+
+    <div id="mealOverviews">
+
+        <!-- Generated by index.js -->
+
+    </div>
+
+
+
+</section>
+
+
+
+</main>
+
+
+
 </body>
+
 </html>

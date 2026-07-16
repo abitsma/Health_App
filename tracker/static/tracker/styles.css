@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Elms+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 
 :root {
@@ -10,9 +9,8 @@
     --dark-accent-color: lightgray;
     --dark-text-color: white;
 
-    --accent-color: #ff6b35; 
+    --accent-color: #ff6b35;
 }
-
 
 * {
     margin: 0;
@@ -51,6 +49,27 @@ button:hover {
     background-color: var(--light-accent-color);
 }
 
+fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+label,
+legend {
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="number"] {
+    width: 100%;
+    padding: 5px;
+    border-radius: 10px;
+    background-color: var(--light-accent-color);
+    border: none;
+    box-sizing: border-box;
+}
+
 .reverseColor {
     background-color: var(--dark-bg-color);
     color: var(--dark-text-color);
@@ -58,6 +77,10 @@ button:hover {
 
 .leftAlign {
     text-align: left;
+}
+
+.centerAlign {
+    text-align: center;
 }
 
 .rightAlign {
@@ -68,7 +91,13 @@ button:hover {
     text-decoration: underline;
 }
 
-/* Progress Bar */
+.outline {
+    border: solid 2px var(--light-accent-color);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+/************************ Progress Bar ************************/
 
 .progressBar {
     background-color: var(--light-accent-color);
@@ -92,7 +121,7 @@ header {
     gap: 10px;
 }
 
-/* Navigation */
+/************************ Navigation ************************/
 
 nav ul {
     margin-top: 20px;
@@ -101,6 +130,12 @@ nav ul {
     justify-content: end;
     gap: 30px;
 }
+
+nav ul li a {
+    text-decoration: none;
+}
+
+/************************ Account Controls ************************/
 
 .logoutItem {
     margin-left: auto;
@@ -114,14 +149,10 @@ nav ul {
 
 .userGreeting {
     background-color: var(--light-accent-color);
-
     padding: 8px 16px;
-
     border: 1px solid var(--light-accent-color);
     border-radius: 8px;
-
     font-weight: 600;
-
     display: flex;
     align-items: center;
 }
@@ -130,13 +161,10 @@ nav ul {
     padding: 8px 18px;
     border: none;
     border-radius: 8px;
-
     background-color: var(--accent-color);
     color: white;
-
     font: inherit;
     cursor: pointer;
-
     transition: 0.2s;
 }
 
@@ -147,8 +175,4 @@ nav ul {
 
 #logoutButton:active {
     transform: scale(0.98);
-}
-
-nav ul li a {
-    text-decoration: none;
 }
