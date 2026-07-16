@@ -1,138 +1,241 @@
-
-const testStartingData = {
-    weight: 60,
-    height: 170,
-    age: 20,
-    gender: "male",
-    activityLevel: "moderate",
-    goal: "maintain"
-}
-
-const personalInformationForm = document.getElementById("personalInformationForm");
+const personalInformationForm =
+    document.getElementById("personalInformationForm");
 
 function init() {
+
     const personData = getPersonData();
-    if (personData == null) return;
+
+    if (personData == null) {
+        return;
+    }
 
     updateForm(personData);
     updateEstimatedCalories(personData);
 }
 
 /*
-    Returns the person data recieved from the server
-    TODO Actually implement it
-
-                                                TO PEOPLE TRYING TO INTERFACE WITH FRONT END
-    
-    Either make this function get data like in testStartingData above or
-    you can maybe run init from the backend and pass the data as an argument like below.
-
-    function init(personData) {
-        ...
-    }
-
+    Returns the person data received from Django
 */
 function getPersonData() {
-    const personDataElement = document.getElementById("person-data");
+
+    const personDataElement =
+        document.getElementById("person-data");
 
     if (!personDataElement) {
-        console.error("Could not find person-data from Django.");
+
+        console.error(
+            "Could not find person-data from Django."
+        );
+
         return null;
     }
 
-    data = JSON.parse(personDataElement.textContent);
-
-    return data;
+    return JSON.parse(personDataElement.textContent);
 }
 
 /*
     Updates the form with the given data
 */
 function updateForm(personData) {
-    if (personData == null) return;
 
-    personalInformationForm.weight.value = personData.weight;
-    personalInformationForm.height.value = personData.height;
-    personalInformationForm.age.value = personData.age;
-    personalInformationForm.gender.value = personData.gender;
-    personalInformationForm.activityLevel.value = personData.activityLevel;
-    personalInformationForm.goal.value = personData.goal;
+    personalInformationForm.weight.value =
+        personData.weight;
+
+    personalInformationForm.height.value =
+        personData.height;
+
+    personalInformationForm.age.value =
+        personData.age;
+
+    personalInformationForm.gender.value =
+        personData.gender;
+
+    personalInformationForm.activityLevel.value =
+        personData.activityLevel;
+
+    personalInformationForm.goal.value =
+        personData.goal;
 }
 
+/*
+    Updates the estimated calories display
+*/
 function updateEstimatedCalories(personData) {
-    const estimatedCalories = formatInt(calculatedEstimatedCalories(personData));
-    const estimatedCaloriesElement = document.getElementById("finalEstimation").querySelector("p");
-    estimatedCaloriesElement.textContent = `${estimatedCalories} calories / day`
+
+    const estimatedCalories =
+        calculatedEstimatedCalories(personData);
+
+    const estimatedCaloriesElement =
+        document.getElementById("finalEstimation")
+            .querySelector("p");
+
+    estimatedCaloriesElement.textContent =
+        formatInt(estimatedCalories) +
+        " calories / day";
+}
+
+/*
+    Calculates estimated calories (TDEE)
+*/
+function calculatedEstimatedCalories(personData) {
+
+    const weight =
+        Number(personData.weight);
+
+    const height =
+        Number(personData.height);
+
+    const age =
+        Number(personData.age);
+
+    if (
+        weight <= 0 ||
+        height <= 0 ||
+        age <= 0
+    ) {
+        return 0;
+    }
+
+    let bmr;
+
+    if (personData.gender === "male") {
+
+        bmr =
+            (10 * weight) +
+            (6.25 * height) -
+            (5 * age) +
+            5;
+
+    }
+    else {
+
+        bmr =
+            (10 * weight) +
+            (6.25 * height) -
+            (5 * age) -
+            161;
+
+    }
+
+    let activityMultiplier = 1.2;
+
+    switch (personData.activityLevel) {
+
+        case "sedentary":
+            activityMultiplier = 1.2;
+            break;
+
+        case "light":
+            activityMultiplier = 1.375;
+            break;
+
+        case "moderate":
+            activityMultiplier = 1.55;
+            break;
+
+        case "active":
+            activityMultiplier = 1.725;
+            break;
+
+        case "very_active":
+            activityMultiplier = 1.9;
+            break;
+    }
+
+    let calories =
+        bmr * activityMultiplier;
+
+    switch (personData.goal) {
+
+        case "lose":
+            calories -= 500;
+            break;
+
+        case "gain":
+            calories += 500;
+            break;
+
+        case "maintain":
+        default:
+            break;
+    }
+
+    return Math.round(calories);
 }
 
 /*
     Saves the profile
-    TODO Actually implement the saving instead of just packaging
+    (Currently Django handles the POST)
 */
 function saveProfile(event) {
+
     event.preventDefault();
+
     const newData = {
-        weight: personalInformationForm.weight.value,
-        height: personalInformationForm.height.value,
-        age: personalInformationForm.age.value,
-        gender: personalInformationForm.gender.value,
-        activityLevel: personalInformationForm.activityLevel.value,
-        goal: personalInformationForm.goal.value,
+
+        weight:
+            personalInformationForm.weight.value,
+
+        height:
+            personalInformationForm.height.value,
+
+        age:
+            personalInformationForm.age.value,
+
+        gender:
+            personalInformationForm.gender.value,
+
+        activityLevel:
+            personalInformationForm.activityLevel.value,
+
+        goal:
+            personalInformationForm.goal.value,
     };
+
     console.log(newData);
-
-    /*
-                                                    TO PEOPLE TRYING TO INTERFACE WITH FRONT END
-        
-        This is where you can have the javascript give the server updated profile information
-    */
 }
 
 /*
-Calculates the estimated calories per day given what was input.
-TODO Actually implement this function
-
-Return:
-The estimated calories needed per day
-*/
-function calculatedEstimatedCalories(personData) {
-    return 0;
-}
-
-/*
-    Adds comma to a given int
-
-    Parameter:
-        intToFormat: Is converted to a string with commas
-    
-    Return:
-        Returns the formatted int
+    Adds commas to an integer
 */
 function formatInt(intToFormat) {
-    return formatIntString(intToFormat.toString());
+
+    return formatIntString(
+        intToFormat.toString()
+    );
 }
 
-
 /*
-    Does the actual work of formatInt.
-    This takes a string as input and gives it commas.
-
-    Parameter:
-        intAsString: A string that was an int that will be formatted
-    
-    Return:
-        intAsString with commas
+    Recursive comma formatter
 */
 function formatIntString(intAsString) {
+
     if (intAsString.length <= 3) {
         return intAsString;
     }
 
-    let commaSpliceIndex = intAsString.length - 3;
-    let beforeCommaSplice = formatIntString(intAsString.slice(0, commaSpliceIndex));
-    let afterCommaSplice = intAsString.slice(commaSpliceIndex, intAsString.length);
-    return beforeCommaSplice + "," + afterCommaSplice;
+    let commaSpliceIndex =
+        intAsString.length - 3;
+
+    let beforeCommaSplice =
+        formatIntString(
+            intAsString.slice(
+                0,
+                commaSpliceIndex
+            )
+        );
+
+    let afterCommaSplice =
+        intAsString.slice(
+            commaSpliceIndex,
+            intAsString.length
+        );
+
+    return (
+        beforeCommaSplice +
+        "," +
+        afterCommaSplice
+    );
 }
 
 init();
-// personalInformationForm.addEventListener("submit", saveProfile);

@@ -51,5 +51,5 @@ clean_8.to_csv('clean_data.tsv', sep='\t', index=False)
 ```
 
 ```{python}
- clean_8.to_json('cleen_data.json', orient='records', indent=4)
+ clean_8.to_json('clean_data.json', orient='records', indent=4)
 ```

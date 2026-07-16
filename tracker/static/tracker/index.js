@@ -1,308 +1,230 @@
+const monthNames = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
 
-const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-
-const FOOD_NAME_INDEX = 0;
-const FOOD_CAL_INDEX = 1;
+const dayNames = [
+  "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+];
 
 let testFoodData = {
-    targetCalories: 1991,
-    meals: [
-        {
-            mealName: "Breakfast",
-            foodItems: [
-                {
-                    name: "Oatmeal with Berries",
-                    calories: 380,
-                    protein: 14,
-                    carbs: 65,
-                    fat: 8
-                },
-                {
-                    name: "Greek Yogurt",
-                    calories: 150,
-                    protein: 17,
-                    carbs: 8,
-                    fat: 4
-                }
-            ]
-        },
-        {
-            mealName: "Lunch",
-            foodItems: [
-                {
-                    name: "Chicken & Rice Bowl",
-                    calories: 520,
-                    protein: 42,
-                    carbs: 52,
-                    fat: 12
-                },
-                {
-                    name: "Side Salad",
-                    calories: 85,
-                    protein: 2,
-                    carbs: 12,
-                    fat: 4
-                },
-            ]
-        },
-        {
-            mealName: "Dinner",
-            foodItems: []
-        },
-        {
-            mealName: "Snacks",
-            foodItems: [
-                {
-                    name: "Mixed Nuts",
-                    calories: 180,
-                    protein: 5,
-                    carbs: 8,
-                    fat: 15
-                },
-                {
-                    name: "Banana",
-                    calories: 105,
-                    protein: 1,
-                    carbs: 27,
-                    fat: 0
-                }
-            ]
-        }
-    ]
+  targetCalories: 1991,
+  meals: [
+    {
+      mealName: "Breakfast",
+      mealType: "breakfast",
+      foodItems: [
+        { name: "Oatmeal with Berries", calories: 380, protein: 14, carbs: 65, fat: 8 },
+        { name: "Greek Yogurt", calories: 150, protein: 17, carbs: 8, fat: 4 }
+      ]
+    },
+    {
+      mealName: "Lunch",
+      mealType: "lunch",
+      foodItems: [
+        { name: "Chicken & Rice Bowl", calories: 520, protein: 42, carbs: 52, fat: 12 },
+        { name: "Side Salad", calories: 85, protein: 2, carbs: 12, fat: 4 }
+      ]
+    },
+    {
+      mealName: "Dinner",
+      mealType: "dinner",
+      foodItems: []
+    },
+    {
+      mealName: "Snacks",
+      mealType: "snack",
+      foodItems: [
+        { name: "Mixed Nuts", calories: 180, protein: 5, carbs: 8, fat: 15 },
+        { name: "Banana", calories: 105, protein: 1, carbs: 27, fat: 0 }
+      ]
+    }
+  ]
 };
 
 function init() {
-    const foodData = getFoodData();
+  const foodData = getFoodData();
+  const targetCalories = foodData.targetCalories;
+  const meals = foodData.meals;
 
-    const targetCalories = foodData.targetCalories;
-    const meals = foodData.meals;
+  setupDate();
+  const totalMacros = setupMealOverviews(meals);
 
-    setupDate();
-    const totalMacros = setupMealOverviews(meals);
-    setupTodaysSummary(totalMacros.totalCalCount, targetCalories, totalMacros.totalProteinCount, totalMacros.totalCarbCount, totalMacros.totalFatCount);
-    setupDailyProgress(totalMacros.totalCalCount, targetCalories);
-    setupButtons();
+  setupTodaysSummary(
+    totalMacros.totalCalCount,
+    targetCalories,
+    totalMacros.totalProteinCount,
+    totalMacros.totalCarbCount,
+    totalMacros.totalFatCount
+  );
+
+  setupDailyProgress(totalMacros.totalCalCount, targetCalories);
+  setupButtons();
 }
 
-/*
-    Returns the food data recieved from the server
-    TODO Actually implement it
-
-                                                TO PEOPLE TRYING TO INTERFACE WITH FRONT END
-    
-    Either make this function get data like in example-food-data.json or
-    you can maybe run init from the backend and pass the data as an argument like below.
-
-    function init(foodData) {
-        ...
-    }
-
-*/
+/* Gets food data from Django */
 function getFoodData() {
-    const foodDataElement = document.getElementById("food-data");
-
-    if (!foodDataElement) {
-        console.log("Could not find food data JSON form Django.");
-        return testFoodData;
-    }
-
-    return JSON.parse(foodDataElement.textContent);
+  const foodDataElement = document.getElementById("food-data");
+  if (!foodDataElement) {
+    console.log("Using test food data.");
+    return testFoodData;
+  }
+  return JSON.parse(foodDataElement.textContent);
 }
 
-
-/*
-    Updates the date
-*/
+/* Setup date display */
 function setupDate() {
-    let currentDate = new Date();
+  let currentDate = new Date();
+  let dayName = dayNames[currentDate.getDay()];
+  let monthName = monthNames[currentDate.getMonth()];
+  let dayNum = currentDate.getDate();
+  let year = currentDate.getFullYear();
 
-    let dayName = dayNames[currentDate.getDay()];
-    let monthName = monthNames[currentDate.getMonth()];
-    let dayNum = currentDate.getDate();
-    let year = currentDate.getFullYear();
-
-    let dateElement = document.getElementById("date");
-    dateElement.textContent = dayName + ", " + monthName + " " + dayNum + ", " + year;
+  document.getElementById("date").textContent = dayName + ", " + monthName + " " + dayNum + ", " + year;
 }
 
-/*
-    Sets up all of the meal overviews
-
-    Return:
-        An object that contains the total macros for all food
-*/
+/* Creates meal cards */
 function setupMealOverviews(meals) {
-    // initialize total macros
-    let totalCalCount = 0;
-    let totalProteinCount = 0;
-    let totalCarbCount = 0;
-    let totalFatCount = 0;
+  let totalCalCount = 0;
+  let totalProteinCount = 0;
+  let totalCarbCount = 0;
+  let totalFatCount = 0;
+  let mealsHTML = "";
 
-    // Get HTML for the meals
-    let mealsHTML = "";
-    meals.forEach((meal) => {
-        // initialize total meal calorie count
-        let totalMealCalCount = 0;
+  meals.forEach((meal) => {
+    let totalMealCalCount = 0;
+    let foodItemsHTML = "";
 
-        // Get the HTML for the food items
-        let foodItemsHTML = "";
-        meal.foodItems.forEach((foodItem) => {
-            foodItemsHTML += `
-                <div class="foodItem">
-                    <p>${foodItem.name}</p>
-                    <p class="rightAlign">${formatInt(foodItem.calories)}</p>
-                </div>
-                `
-
-            // Update total meal calorie count
-            totalMealCalCount += foodItem.calories;
-
-            // Update general total macros
-            totalCalCount += foodItem.calories;
-            totalProteinCount += foodItem.protein;
-            totalCarbCount += foodItem.carbs;
-            totalFatCount += foodItem.fat;
-        });
-
-        // If there were no food items
-        if (foodItemsHTML == "") {
-            foodItemsHTML = '<p class="noFoodItem">Nothing logged</p>';
-        }
-
-        // Add to the meals HTML
-        mealsHTML += `
-            <section class="mealOverview">
-                <div class="mealOverviewHeader">
-                    <h3>${meal.mealName}</h3>
-                    <p class="rightAlign total">${formatInt(totalMealCalCount)} kcal</p>
-                </div>
-                <div class="foodItems">
-                    ${foodItemsHTML}
-                </div>
-                <button type="button" class="mealAddButton">+ Add</button>
-            </section>
-            `;
+    meal.foodItems.forEach((foodItem) => {
+      foodItemsHTML += `
+        <div class="foodItem">
+          <p>${foodItem.name}</p>
+          <p class="rightAlign"> ${formatInt(foodItem.calories)} </p>
+        </div>
+      `;
+      totalMealCalCount += foodItem.calories;
+      totalCalCount += foodItem.calories;
+      totalProteinCount += foodItem.protein;
+      totalCarbCount += foodItem.carbs;
+      totalFatCount += foodItem.fat;
     });
 
-    const mealOverviewsElement = document.getElementById("mealOverviews");
-    
-    mealOverviewsElement.innerHTML = mealsHTML;
+    if (foodItemsHTML === "") {
+      foodItemsHTML = '<p class="noFoodItem">Nothing logged</p>';
+    }
 
-    return {
-        totalCalCount: totalCalCount,
-        totalProteinCount: totalProteinCount,
-        totalCarbCount: totalCarbCount,
-        totalFatCount: totalFatCount
-    };
+    mealsHTML += `
+      <section class="mealOverview">
+        <div class="mealOverviewHeader">
+          <h3>${meal.mealName}</h3>
+          <p class="rightAlign total"> ${formatInt(totalMealCalCount)} kcal </p>
+        </div>
+        <div class="foodItems">
+          ${foodItemsHTML}
+        </div>
+        <button type="button" class="mealAddButton" data-meal="${meal.mealType}"> + Add </button>
+      </section>
+    `;
+  });
+
+  document.getElementById("mealOverviews").innerHTML = mealsHTML;
+
+  return {
+    totalCalCount: totalCalCount,
+    totalProteinCount: totalProteinCount,
+    totalCarbCount: totalCarbCount,
+    totalFatCount: totalFatCount
+  };
 }
 
-
-/*
-    Sets up Today's Summary
-
-    Parameter:
-        totalCalCount: The total amount of calories already consumed
-*/
+/* Update summary card */
 function setupTodaysSummary(totalCalCount, targetCalCount, proteinCount, carbCount, fatCount) {
-    // get todays summary element
-    let todaysSummaryElement = document.getElementById("summary");
-    
-    // update calorie count
-    let calorieCountElement = todaysSummaryElement.getElementsByClassName("calorieCount")[0];
-    calorieCountElement.innerHTML = "<strong>" + formatInt(totalCalCount) +"</strong> / " + formatInt(targetCalCount);
-    
-    // update remaining calories
-    let remainingCaloriesElement = todaysSummaryElement.getElementsByClassName("remainingCalories")[0];
-    let remainingCal = targetCalCount - totalCalCount;
-    remainingCaloriesElement.textContent = formatInt(remainingCal) + " kcal remaining";
-
-
-    // update macros
-    function updateMacroNum(macroElement, macroNum) {
-        let macroNumElement = macroElement.querySelector("p strong");
-        macroNumElement.textContent = formatInt(macroNum);
-    }
-    updateMacroNum(document.getElementById("proteinMacro"), proteinCount);
-    updateMacroNum(document.getElementById("carbMacro"), carbCount);
-    updateMacroNum(document.getElementById("fatMacro"), fatCount);
+  let summary = document.getElementById("summary");
+  
+  summary.querySelector(".calorieCount").innerHTML = "<strong>" + formatInt(totalCalCount) + "</strong> / " + formatInt(targetCalCount);
+  summary.querySelector(".remainingCalories").textContent = formatInt(targetCalCount - totalCalCount) + " kcal remaining";
+  
+  document.querySelector("#proteinMacro strong").textContent = formatInt(proteinCount);
+  document.querySelector("#carbMacro strong").textContent = formatInt(carbCount);
+  document.querySelector("#fatMacro strong").textContent = formatInt(fatCount);
 }
 
-/*
-    Sets up Daily Progress
-
-    Parameter:
-        totalCalCount: The total amount of calories already consumed
-*/
+/* Update progress bar */
 function setupDailyProgress(totalCalCount, targetCalories) {
-    let dailyProgressElement = document.getElementById("dailyProgress");
+  let progress = document.getElementById("dailyProgress");
+  let percentage = (totalCalCount / targetCalories) * 100;
 
-    // Update percentage of goal
-    let percentOfGoalElement = dailyProgressElement.getElementsByClassName("percentOfGoal")[0];
-    let percentage = totalCalCount / targetCalories * 100.0;
-    percentOfGoalElement.textContent = Math.round(percentage) + "% of daily goal";
-    
-    // Update progress bar
-    let dailyProgressBarElement = document.getElementById("dailyProgressBar");
-    dailyProgressBarElement.style.gridTemplateColumns = percentage + "%";
-
-    // Update fractional progress
-    let fractionalProgressElement = dailyProgressElement.getElementsByClassName("fractionalProgress")[0];
-    fractionalProgressElement.textContent = formatInt(totalCalCount) + "/ " + formatInt(targetCalories) +" kcal";
-
-    // <p class="rightAlign barCalCount">x,xxx kcal</p>
-    // Update progress bar calorie count
-    let barCalCountElement = dailyProgressElement.getElementsByClassName("barCalCount")[0];
-    barCalCountElement.textContent = formatInt(totalCalCount) + " kcal";
+  progress.querySelector(".percentOfGoal").textContent = Math.round(percentage) + "% of daily goal";
+  document.getElementById("dailyProgressBar").style.gridTemplateColumns = percentage + "%";
+  
+  progress.querySelector(".fractionalProgress").textContent = formatInt(totalCalCount) + "/ " + formatInt(targetCalories) + " kcal";
+  progress.querySelector(".barCalCount").textContent = formatInt(totalCalCount) + " kcal";
 }
 
+/* Button setup */
 function setupButtons() {
-    document.getElementById("viewLogButton").addEventListener("click", onViewLogButtonClicked);
-    document.getElementById("addFoodButton").addEventListener("click", onAddFoodButtonClicked);
+  const addFoodButton = document.getElementById("addFoodButton");
+  const viewLogButton = document.getElementById("viewLogButton");
+
+  // 1. Main Quick Action: + Add Food Button
+  if (addFoodButton) {
+    addFoodButton.onclick = function () {
+      const url = this.getAttribute("data-url");
+      if (url) {
+        window.location.href = url;
+      } else {
+        console.error("data-url attribute missing on #addFoodButton");
+      }
+    };
+  } else {
+    console.error("Could not find #addFoodButton in the DOM.");
+  }
+
+  // 2. Main Quick Action: View Log Button
+  if (viewLogButton) {
+    viewLogButton.onclick = function () {
+      const url = this.getAttribute("data-url");
+      if (url) window.location.href = url;
+    };
+  }
+
+  // 3. Dynamic Meal Specific "+ Add" buttons (Handles items generated by setupMealOverviews)
+  const mealOverviewsContainer = document.getElementById("mealOverviews");
+  if (mealOverviewsContainer) {
+    mealOverviewsContainer.onclick = function (event) {
+      // Check if the clicked item (or its parent) is a meal add button
+      const button = event.target.closest(".mealAddButton");
+      if (button) {
+        const mealType = button.getAttribute("data-meal");
+        console.log("Sending to add food for meal:", mealType);
+        
+        if (window.addFoodURL) {
+          window.location.href = window.addFoodURL + "?mealType=" + mealType;
+        } else {
+          console.error("window.addFoodURL is missing from the HTML <head> context.");
+        }
+      }
+    };
+  }
 }
 
-function onAddFoodButtonClicked(event) {
-    window.location.href = "/add_food/";
+
+/* Number formatting */
+function formatInt(number) {
+  return formatIntString(number.toString());
 }
 
-function onViewLogButtonClicked(event) {
-    window.location.href = "/log/";
+function formatIntString(string) {
+  if (string.length <= 3) {
+    return string;
+  }
+  let index = string.length - 3;
+  return (
+    formatIntString(string.slice(0, index)) + "," + string.slice(index)
+  );
 }
 
-
-/*
-    Adds comma to a given int
-
-    Parameter:
-        intToFormat: Is converted to a string with commas
-    
-    Return:
-        Returns the formatted int
-*/
-function formatInt(intToFormat) {
-    return formatIntString(intToFormat.toString());
-}
-
-
-/*
-    Does the actual work of formatInt.
-    This takes a string as input and gives it commas.
-
-    Parameter:
-        intAsString: A string that was an int that will be formatted
-    
-    Return:
-        intAsString with commas
-*/
-function formatIntString(intAsString) {
-    if (intAsString.length <= 3) {
-        return intAsString;
-    }
-
-    let commaSpliceIndex = intAsString.length - 3;
-    let beforeCommaSplice = formatIntString(intAsString.slice(0, commaSpliceIndex));
-    let afterCommaSplice = intAsString.slice(commaSpliceIndex, intAsString.length);
-    return beforeCommaSplice + "," + afterCommaSplice;
-}
-
-init()
+// Safely initializes the script only after the HTML is fully loaded and structured
+document.addEventListener("DOMContentLoaded", function() {
+  init();
+});
