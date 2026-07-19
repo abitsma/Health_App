@@ -1,49 +1,52 @@
-# Project Title (Calorie Tracker)
+# Calorie Track
 
-## Team Members
-- Ben Wayland
-- William Hardy
-- Troy Justesen
-- Austin Bitsoi
-- Javier Rentas
+A website that helps plan and manage caloric intake. Including featuressuch as a built in calorie calculator, food log with macros, and a searchable food data base to help anyone meet their weight goals.
 
-## Software Description
-An app that not only helps you track calories consumed, but also the macros in the food eaten. The app will also help students have at their disposal information concerning the foods that are available on the BYU-I campus. The main idea of the program is to take all you need for your weight loss goals, and put them all into one, easy to use app.
+## Instructions for Build and Use
 
-## Architecture
-Programming languages:
-- HTML
-- CSS
-- Python
-- Django
+Steps to build and/or run the software:
 
-Development Tools:
-- Visual Studio Code
-- GitHub: Project & Public Repository
+1. Have an IDE that supports Python and Django
+2. Download and install Python
+3. Download and install Django
+4. Clone Health_App repository
+5. In terminal type "py manage.py runserver"
 
-## Software Features
+Instructions for using the software:
 
-* [ ] Calorie and Nutrition tracking
-* [ ] Implemented Food Database
-* [ ] Barcode Scanning
-* [ ] Meal Planning
-* [ ] Food Recommendations
-* [ ] Activity Data Access (Smart/Apple watch Interfacing)
-* [ ] TDE Tracker
-* [ ] Motivation/Accountability Helper
+1. Login or create an account
+2. Go to profile page to input body info such as weigh, height, age, etc
+3. Still in profile page, input activity goals and whether to lose, maintain, or gain weight
+4. Site will automatically calculate daily caloric intake. Save profile
+5. In dashboard, view how your daily caloric intake is goin and macros consumed.
+6. In log page, view the foods you have logged for breakfast, lunch, dinner, and as a snack. You can also view food logged for different days.
+7. Click the "add food" button or either the dashboard or log page. Or in the nav bar, click the add food page.
+8. Manually insert the name of the food, how many calories it contained, as well as the macros (fat, carb, protein) and type of meal.
+9. OR use the search bar to search database for food and automatically fill in each entry.
 
-## Team Communication
-Microsoft Teams
+## Development Environment
 
-## Team Responsibility
+To recreate the development environment, you need the following software and/or libraries with the specified versions:
 
-|Responsibility                      |Team Member(s)              |
-|------------------------------------|----------------------------|
-|Conducting Meetings                 |    William Hardy     |
-|Maintaining Team Assignment List    |    Javier Rentas     |
-|Ensuring GitHub is Working          |    Austin Bitsoi      |
-|Maintaining Documentation           |    Ben Wayland    |
-|Create & Display Presentations      |    Troy Justicen     |
-|Submit Team Assignments             |    Austin Bitsoi     |
+* Python
+* Django
+* HTML
+* JavaScript
 
-## Reflections
+## Useful Websites to Learn More
+
+I found these websites useful in developing this software:
+
+* [Django Documentatio](https://docs.djangoproject.com/en/6.0/)
+* ChatGPT
+* [RealPython - Django Tutorial](https://realpython.com/get-started-with-django-1/)
+
+## Future Work
+
+The following items I plan to fix, improve, and/or add to this project in the future:
+
+* [ ] Deploy website in public server
+* [ ] Make it mobile (phone app)
+* [ ] Smart Watch intergration
+* [ ] Improve and Expand searchable database
+* [ ] AI guide/chef
